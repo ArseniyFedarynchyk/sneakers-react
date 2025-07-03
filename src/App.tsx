@@ -1,5 +1,11 @@
+import Header from "./components/Header";
+
 function App() {
-  return <h1>Hello New React App</h1>;
+  return (
+    <>
+      <Header />
+    </>
+  );
 }
 
 export default App;
