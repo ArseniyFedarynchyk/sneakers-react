@@ -4,7 +4,7 @@ import FavoriteIcon from "../assets/like-1.svg";
 
 export default function Card() {
   return (
-    <div className="relative m-8 border border-slate-100 rounded-3xl p-8 cursor-pointer hover:-translate-y-2 hover:shadow-xl transition">
+    <div className="relative bg-white border border-slate-100 rounded-3xl p-8 cursor-pointer hover:-translate-y-2 hover:shadow-xl transition">
       <img
         src={FavoriteIcon}
         alt="Add to favorite icon"
