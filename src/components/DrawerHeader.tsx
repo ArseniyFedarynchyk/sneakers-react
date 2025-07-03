@@ -1,6 +1,6 @@
 export default function DrawerHeader() {
   return (
-    <div className="flex items-center gap-5 mb-5">
+    <div className="flex items-center gap-5 mb-8">
       <svg
         className="rotate-180 hover:-translate-x-1 opacity-30 hover:opacity-100 transition cursor-pointer"
         width="16"
