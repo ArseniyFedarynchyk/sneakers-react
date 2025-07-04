@@ -1,20 +1,23 @@
-import type { Sneakers } from "../models/sneakers.model";
+import type { Sneaker } from "../models/sneaker.model";
 import Card from "./Card";
 
 interface CardListProps {
-  sneakers: Sneakers[];
+  sneakers: Sneaker[];
+  addToFavorites: (item: Sneaker) => void;
 }
 
-export default function CardList({ sneakers }: CardListProps) {
+export default function CardList({ sneakers, addToFavorites }: CardListProps) {
   return (
     <div className="grid grid-cols-4 gap-5 mt-10">
       {sneakers.map((sneaker) => (
         <Card
           key={sneaker.id}
+          sneaker={sneaker}
           title={sneaker.title}
           price={sneaker.price}
           imageUrl={sneaker.imageUrl}
           isFavorite={sneaker.isFavorite}
+          addToFavorites={addToFavorites}
         />
       ))}
     </div>

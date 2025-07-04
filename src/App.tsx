@@ -2,12 +2,12 @@ import CardList from "./components/CardList";
 import Header from "./components/Header";
 import SearchIcon from "./assets/search.svg";
 import { useCallback, useEffect, useState } from "react";
-import type { Sneakers } from "./models/sneakers.model";
+import type { Sneaker } from "./models/sneaker.model";
 
 const API_URL = "https://f67e77c455aa171b.mokky.dev";
 
 function App() {
-  const [sneakers, setSneakers] = useState<Sneakers[]>([]);
+  const [sneakers, setSneakers] = useState<Sneaker[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [filters, setFilters] = useState({ sortBy: "title", searchQuerry: "" });
@@ -25,17 +25,18 @@ function App() {
       }
 
       const data = await fetch(URL);
-      const fetchedSneakers: Sneakers[] = await data.json();
+      const fetchedSneakers: Sneaker[] = await data.json();
 
       const updatedSneakers = fetchedSneakers.map((sneaker) => ({
         ...sneaker,
+        parentId: null,
         isFavorite: false,
         isAdded: false,
       }));
       setSneakers(updatedSneakers);
 
       const favoritesData = await fetch(`${API_URL}/favorites`);
-      const favorites: Sneakers[] = await favoritesData.json();
+      const favorites: Sneaker[] = await favoritesData.json();
 
       const sneakersWithFavorites = updatedSneakers.map((sneaker) => {
         const favorite = favorites.find(
@@ -80,6 +81,65 @@ function App() {
     }));
   };
 
+  const addToFavorites = async (item: Sneaker) => {
+    try {
+      setSneakers((prevSneaker) =>
+        prevSneaker.map((sneaker) => {
+          return sneaker.id === item.id
+            ? { ...sneaker, isFavorite: !sneaker.isFavorite }
+            : sneaker;
+        })
+      );
+
+      if (!item.isFavorite) {
+        const obj = {
+          parentId: item.id,
+        };
+
+        const response = await fetch(`${API_URL}/favorites`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(obj),
+        });
+
+        const data = await response.json();
+
+        setSneakers((prevSneakers) =>
+          prevSneakers.map((sneaker) =>
+            sneaker.id === item.id
+              ? {
+                  ...sneaker,
+                  parentId: item.id,
+                  favoriteId: data.id,
+                }
+              : sneaker
+          )
+        );
+      } else {
+        await fetch(`${API_URL}/favorites/${item.favoriteId}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        setSneakers((prevSneakers) =>
+          prevSneakers.map((sneaker) => {
+            return sneaker.id === item.parentId
+              ? { ...sneaker, favoriteId: null }
+              : sneaker;
+          })
+        );
+
+        console.log(sneakers);
+      }
+    } catch {
+      console.log("Error occured!"); // Handle errors
+    }
+  };
+
   return (
     <div className="bg-white w-4/5 m-auto rounded-xl shadow-xl mt-14">
       <Header />
@@ -111,8 +171,7 @@ function App() {
             </div>
           </div>
         </div>
-
-        <CardList sneakers={sneakers} />
+        <CardList sneakers={sneakers} addToFavorites={addToFavorites} />
       </div>
     </div>
   );
