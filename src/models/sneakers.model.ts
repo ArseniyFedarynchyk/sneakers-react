@@ -3,4 +3,8 @@ export interface Sneakers {
   title: string;
   price: number;
   imageUrl: string;
+  isFavorite?: boolean;
+  isAdded?: boolean;
+  favoriteId?: number;
+  parentId: number;
 }
