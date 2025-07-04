@@ -1,4 +1,8 @@
-export default function DrawerHeader() {
+interface DrawerHeaderProps {
+  toggleCart: () => void;
+}
+
+export default function DrawerHeader({ toggleCart }: DrawerHeaderProps) {
   return (
     <div className="flex items-center gap-5 mb-8">
       <svg
@@ -8,6 +12,7 @@ export default function DrawerHeader() {
         viewBox="0 0 16 14"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
+        onClick={toggleCart}
       >
         <path
           d="M1 7H14.7143"

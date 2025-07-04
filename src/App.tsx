@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import SearchIcon from "./assets/search.svg";
 import { useCallback, useEffect, useState } from "react";
 import type { Sneaker } from "./models/sneaker.model";
+import Drawer from "./components/Drawer";
 
 const API_URL = "https://f67e77c455aa171b.mokky.dev";
 
@@ -11,6 +12,7 @@ function App() {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [filters, setFilters] = useState({ sortBy: "title", searchQuerry: "" });
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   const fetchData = useCallback(async () => {
     setIsLoading(true);
@@ -65,21 +67,6 @@ function App() {
       setIsLoading(false);
     }
   }, [filters]);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
-
-  const handleChangeSelect = (sortBy: string) => {
-    setFilters((prevFilters) => ({ ...prevFilters, sortBy: sortBy }));
-  };
-
-  const handleChangeSearchQuerry = (searchQuerry: string) => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      searchQuerry: searchQuerry,
-    }));
-  };
 
   const addToFavorites = async (item: Sneaker) => {
     try {
@@ -140,40 +127,66 @@ function App() {
     }
   };
 
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  const handleChangeSelect = (sortBy: string) => {
+    setFilters((prevFilters) => ({ ...prevFilters, sortBy: sortBy }));
+  };
+
+  const handleChangeSearchQuerry = (searchQuerry: string) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      searchQuerry: searchQuerry,
+    }));
+  };
+
+  const toggleCart = () => {
+    setIsCartOpen((prevIsCartOpen) => !prevIsCartOpen);
+  };
+
   return (
-    <div className="bg-white w-4/5 m-auto rounded-xl shadow-xl mt-14">
-      <Header />
-      <div className="p-10">
-        <div className="flex justify-between items-center mb-8">
-          <h2 className="text-3xl font-bold">All sneakers</h2>
+    <>
+      {isCartOpen && <Drawer toggleCart={toggleCart} />}
+      <div className="bg-white w-4/5 m-auto rounded-xl shadow-xl mt-14">
+        <Header toggleCart={toggleCart} />
+        <div className="p-10">
+          <div className="flex justify-between items-center mb-8">
+            <h2 className="text-3xl font-bold">All sneakers</h2>
 
-          <div className="flex gap-3">
-            <select
-              className="py-2 px-3 border border-gray-200 rounded outline-none"
-              name="sort"
-              defaultValue="title"
-              onChange={(e) => handleChangeSelect(e.target.value)}
-            >
-              <option value="title">By name</option>
-              <option value="price">By price (low - high)</option>
-              <option value="-price">By price (high - low)</option>
-            </select>
+            <div className="flex gap-3">
+              <select
+                className="py-2 px-3 border border-gray-200 rounded outline-none"
+                name="sort"
+                defaultValue="title"
+                onChange={(e) => handleChangeSelect(e.target.value)}
+              >
+                <option value="title">By name</option>
+                <option value="price">By price (low - high)</option>
+                <option value="-price">By price (high - low)</option>
+              </select>
 
-            <div className="relative">
-              <img className="absolute left-3 top-3" src={SearchIcon} alt="" />
-              <input
-                className="border border-gray-200 rounded-md py-2 pl-11 pr-4 outline-none focus:border-gray-400"
-                type="text"
-                placeholder="Search..."
-                value={filters.searchQuerry}
-                onChange={(e) => handleChangeSearchQuerry(e.target.value)}
-              />
+              <div className="relative">
+                <img
+                  className="absolute left-3 top-3"
+                  src={SearchIcon}
+                  alt=""
+                />
+                <input
+                  className="border border-gray-200 rounded-md py-2 pl-11 pr-4 outline-none focus:border-gray-400"
+                  type="text"
+                  placeholder="Search..."
+                  value={filters.searchQuerry}
+                  onChange={(e) => handleChangeSearchQuerry(e.target.value)}
+                />
+              </div>
             </div>
           </div>
+          <CardList sneakers={sneakers} addToFavorites={addToFavorites} />
         </div>
-        <CardList sneakers={sneakers} addToFavorites={addToFavorites} />
       </div>
-    </div>
+    </>
   );
 }
 

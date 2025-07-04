@@ -1,12 +1,19 @@
 import CartItemList from "./CartItemList";
 import DrawerHeader from "./DrawerHeader";
 
-export default function Drawer() {
+interface DrawerProps {
+  toggleCart: () => void;
+}
+
+export default function Drawer({ toggleCart }: DrawerProps) {
   return (
     <>
-      <div className="fixed top-0 left-0 h-full w-full bg-black z-10 opacity-60"></div>
+      <div
+        className="fixed top-0 left-0 h-full w-full bg-black z-10 opacity-60"
+        onClick={toggleCart}
+      ></div>
       <div className="fixed top-0 right-0 z-20 bg-white w-96 h-full p-8">
-        <DrawerHeader />
+        <DrawerHeader toggleCart={toggleCart} />
         <CartItemList />
 
         <div className="flex justify-between mb-6 mt-7">
