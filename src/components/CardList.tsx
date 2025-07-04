@@ -14,6 +14,7 @@ export default function CardList({ sneakers }: CardListProps) {
           title={sneaker.title}
           price={sneaker.price}
           imageUrl={sneaker.imageUrl}
+          isFavorite={sneaker.isFavorite}
         />
       ))}
     </div>
