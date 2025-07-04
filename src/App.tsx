@@ -1,8 +1,41 @@
 import CardList from "./components/CardList";
 import Header from "./components/Header";
 import SearchIcon from "./assets/search.svg";
+import { useEffect, useState } from "react";
+import type { Sneakers } from "./models/sneakers.model";
+
+const API_URL = "https://f67e77c455aa171b.mokky.dev";
 
 function App() {
+  const [sneakers, setSneakers] = useState<Sneakers[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      setError(null);
+
+      try {
+        const data = await fetch(`${API_URL}/items`);
+        const sneakers: Sneakers[] = await data.json();
+        setSneakers(sneakers);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          setError(error.message);
+          console.error("Error fetching data:", error);
+        } else {
+          setError("An unknown error occurred");
+          console.error("Error fetching data:", error);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div className="bg-white w-4/5 m-auto rounded-xl shadow-xl mt-14">
       <Header />
