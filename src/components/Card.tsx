@@ -1,8 +1,8 @@
-import SneakersLogo from "../assets/sneakers/sneakers-1.jpg";
 import PlusIcon from "../assets/plus.svg";
 import CheckedIcon from "../assets/checked.svg";
 import FavoriteIcon from "../assets/like-1.svg";
 import FavoriteAddedIcon from "../assets/like-2.svg";
+import SneakerLogo from "../assets/sneakers/sneakers-1.jpg";
 
 interface CardProps {
   title?: string;
@@ -14,7 +14,6 @@ interface CardProps {
 
 export default function Card({
   title,
-  imageUrl,
   price,
   isFavorite = false,
   isAdded = false,
@@ -26,12 +25,12 @@ export default function Card({
         alt="Add to favorite icon"
         className="absolute top-8 left-8 cursor-pointer"
       />
-      <img src={SneakersLogo} alt="sneaker photo" />
-      <p className="mb-5">Man's sneakers Nike Blazer Mid Suede</p>
+      <img src={SneakerLogo} alt="sneaker photo" />
+      <p className="mb-5">{title}</p>
       <div className="flex justify-between">
         <div>
           <p className="text-slate-400">Price</p>
-          <p className="font-semibold">120 USD</p>
+          <p className="font-semibold">{price}</p>
         </div>
         <img
           src={!isAdded ? PlusIcon : CheckedIcon}

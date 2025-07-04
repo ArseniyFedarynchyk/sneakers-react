@@ -64,7 +64,7 @@ function App() {
           </div>
         </div>
 
-        <CardList />
+        <CardList sneakers={sneakers} />
       </div>
     </div>
   );
