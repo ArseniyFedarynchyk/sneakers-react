@@ -30,7 +30,7 @@ export default function Card({
       <div className="flex justify-between">
         <div>
           <p className="text-slate-400">Price</p>
-          <p className="font-semibold">{price}</p>
+          <p className="font-semibold">{price}$</p>
         </div>
         <img
           src={!isAdded ? PlusIcon : CheckedIcon}
