@@ -7,6 +7,7 @@ interface DrawerProps {
   totalPrice: number;
   toggleCart: () => void;
   removeFromCart: (item: Sneaker) => void;
+  createOrder: () => void;
 }
 
 export default function Drawer({
@@ -14,6 +15,7 @@ export default function Drawer({
   totalPrice,
   toggleCart,
   removeFromCart,
+  createOrder,
 }: DrawerProps) {
   return (
     <>
@@ -34,6 +36,7 @@ export default function Drawer({
         <button
           disabled={cartItems.length === 0}
           className="mt-4 transition bg-lime-500 w-full rounded-xl cursor-pointer py-3 disabled:bg-slate-400 text-white hover:bg-lime-600 active:bg-lime-700"
+          onClick={createOrder}
         >
           Checkout
         </button>
