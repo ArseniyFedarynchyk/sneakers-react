@@ -4,12 +4,14 @@ import DrawerHeader from "./DrawerHeader";
 
 interface DrawerProps {
   cartItems: Sneaker[];
+  totalPrice: number;
   toggleCart: () => void;
   removeFromCart: (item: Sneaker) => void;
 }
 
 export default function Drawer({
   cartItems,
+  totalPrice,
   toggleCart,
   removeFromCart,
 }: DrawerProps) {
@@ -26,7 +28,7 @@ export default function Drawer({
         <div className="flex justify-between mb-6 mt-7">
           <p>Sum:</p>
           <div className="flex-1"></div>
-          <p>120 USD</p>
+          <p>{totalPrice} USD</p>
         </div>
 
         <button

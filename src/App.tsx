@@ -14,6 +14,7 @@ function App() {
   const [filters, setFilters] = useState({ sortBy: "title", searchQuerry: "" });
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState<Sneaker[]>([]);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   const fetchData = useCallback(async () => {
     setIsLoading(true);
@@ -161,6 +162,10 @@ function App() {
     fetchData();
   }, [fetchData]);
 
+  useEffect(() => {
+    setTotalPrice(cartItems.reduce((acc, item) => acc + +item.price, 0));
+  }, [cartItems]);
+
   const handleChangeSelect = (sortBy: string) => {
     setFilters((prevFilters) => ({ ...prevFilters, sortBy: sortBy }));
   };
@@ -183,10 +188,11 @@ function App() {
           toggleCart={toggleCart}
           cartItems={cartItems}
           removeFromCart={onClickAddPlus}
+          totalPrice={totalPrice}
         />
       )}
       <div className="bg-white w-4/5 m-auto rounded-xl shadow-xl mt-14">
-        <Header toggleCart={toggleCart} />
+        <Header toggleCart={toggleCart} totalPrice={totalPrice} />
         <div className="p-10">
           <div className="flex justify-between items-center mb-8">
             <h2 className="text-3xl font-bold">All sneakers</h2>

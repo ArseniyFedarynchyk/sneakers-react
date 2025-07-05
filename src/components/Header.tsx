@@ -4,10 +4,11 @@ import ProfileIcon from "../assets/profile.svg";
 import FavoritesIcon from "../assets/heart.svg";
 
 interface HeaderProps {
+  totalPrice: number;
   toggleCart: () => void;
 }
 
-export default function Header({ toggleCart }: HeaderProps) {
+export default function Header({ totalPrice, toggleCart }: HeaderProps) {
   return (
     <header className="flex justify-between border-b border-slate-200 px-10 py-4">
       <div className="flex items-center gap-4">
@@ -23,7 +24,7 @@ export default function Header({ toggleCart }: HeaderProps) {
           onClick={toggleCart}
         >
           <img src={CartIcon} alt="Cart" />
-          <b>1205 USD</b>
+          <b>{totalPrice} USD</b>
         </li>
         <li className="flex items-center gap-3 cursor-pointer text-gray-500 hover:text-black">
           <img src={FavoritesIcon} alt="Favorite" />
