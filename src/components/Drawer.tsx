@@ -5,6 +5,7 @@ import DrawerHeader from "./DrawerHeader";
 interface DrawerProps {
   cartItems: Sneaker[];
   totalPrice: number;
+  isOrderCreating: boolean;
   toggleCart: () => void;
   removeFromCart: (item: Sneaker) => void;
   createOrder: () => void;
@@ -13,6 +14,7 @@ interface DrawerProps {
 export default function Drawer({
   cartItems,
   totalPrice,
+  isOrderCreating,
   toggleCart,
   removeFromCart,
   createOrder,
@@ -34,7 +36,7 @@ export default function Drawer({
         </div>
 
         <button
-          disabled={cartItems.length === 0}
+          disabled={cartItems.length === 0 || isOrderCreating}
           className="mt-4 transition bg-lime-500 w-full rounded-xl cursor-pointer py-3 disabled:bg-slate-400 text-white hover:bg-lime-600 active:bg-lime-700"
           onClick={createOrder}
         >

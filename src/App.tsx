@@ -15,6 +15,7 @@ function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState<Sneaker[]>([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [isOrderCreating, setIsOrderCreating] = useState(false);
 
   const fetchData = useCallback(async () => {
     setIsLoading(true);
@@ -131,6 +132,8 @@ function App() {
 
   const createOrder = async () => {
     try {
+      setIsOrderCreating(true);
+
       const response = await fetch(`${API_URL}/orders`, {
         method: "POST",
         headers: {
@@ -142,12 +145,17 @@ function App() {
         }),
       });
 
+      setSneakers((prevSneakers) =>
+        prevSneakers.map((sneaker) => ({ ...sneaker, isAdded: false }))
+      );
       setCartItems([]);
 
       const data = await response.json();
       return data;
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsOrderCreating(false);
     }
   };
 
@@ -207,10 +215,11 @@ function App() {
     <>
       {isCartOpen && (
         <Drawer
-          toggleCart={toggleCart}
           cartItems={cartItems}
-          removeFromCart={onClickAddPlus}
           totalPrice={totalPrice}
+          isOrderCreating={isOrderCreating}
+          toggleCart={toggleCart}
+          removeFromCart={onClickAddPlus}
           createOrder={createOrder}
         />
       )}
