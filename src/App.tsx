@@ -13,6 +13,7 @@ function App() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [filters, setFilters] = useState({ sortBy: "title", searchQuerry: "" });
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [cartItems, setCartItems] = useState<Sneaker[]>([]);
 
   const fetchData = useCallback(async () => {
     setIsLoading(true);
@@ -127,6 +128,24 @@ function App() {
     }
   };
 
+  const addToCart = (item: Sneaker) => {
+    setSneakers((prevSneakers) =>
+      prevSneakers.map((sneaker) =>
+        sneaker.id === item.id
+          ? { ...sneaker, isAdded: !sneaker.isAdded }
+          : sneaker
+      )
+    );
+
+    setCartItems((prevCartItems) => {
+      if (!item.isAdded) {
+        return [...prevCartItems, { ...item, isAdded: true }];
+      } else {
+        return prevCartItems.filter((cartItem) => cartItem.id !== item.id);
+      }
+    });
+  };
+
   useEffect(() => {
     fetchData();
   }, [fetchData]);
@@ -183,7 +202,11 @@ function App() {
               </div>
             </div>
           </div>
-          <CardList sneakers={sneakers} addToFavorites={addToFavorites} />
+          <CardList
+            sneakers={sneakers}
+            addToFavorites={addToFavorites}
+            addToCart={addToCart}
+          />
         </div>
       </div>
     </>

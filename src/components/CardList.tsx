@@ -4,9 +4,14 @@ import Card from "./Card";
 interface CardListProps {
   sneakers: Sneaker[];
   addToFavorites: (item: Sneaker) => void;
+  addToCart: (item: Sneaker) => void;
 }
 
-export default function CardList({ sneakers, addToFavorites }: CardListProps) {
+export default function CardList({
+  sneakers,
+  addToFavorites,
+  addToCart,
+}: CardListProps) {
   return (
     <div className="grid grid-cols-4 gap-5 mt-10">
       {sneakers.map((sneaker) => (
@@ -18,6 +23,8 @@ export default function CardList({ sneakers, addToFavorites }: CardListProps) {
           imageUrl={sneaker.imageUrl}
           isFavorite={sneaker.isFavorite}
           addToFavorites={addToFavorites}
+          addToCart={addToCart}
+          isAdded={sneaker.isAdded}
         />
       ))}
     </div>

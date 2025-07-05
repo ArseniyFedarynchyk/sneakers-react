@@ -13,6 +13,7 @@ interface CardProps {
   isFavorite?: boolean;
   isAdded?: boolean;
   addToFavorites: (item: Sneaker) => void;
+  addToCart: (item: Sneaker) => void;
 }
 
 export default function Card({
@@ -22,6 +23,7 @@ export default function Card({
   isFavorite,
   isAdded,
   addToFavorites,
+  addToCart,
 }: CardProps) {
   return (
     <div className="relative bg-white border border-slate-100 rounded-3xl p-8 cursor-pointer hover:-translate-y-2 hover:shadow-xl transition">
@@ -40,8 +42,9 @@ export default function Card({
         </div>
         <img
           src={!isAdded ? PlusIcon : CheckedIcon}
-          alt="Add to a cart icon"
+          alt="Add to a cart"
           className="cursor-pointer"
+          onClick={() => addToCart(sneaker)}
         />
       </div>
     </div>
