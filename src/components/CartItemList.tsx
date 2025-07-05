@@ -1,12 +1,17 @@
+import type { Sneaker } from "../models/sneaker.model";
 import CartItem from "./CartItem";
 
-export default function CartItemList() {
+interface CartItemListProps {
+  cartItems: Sneaker[];
+}
+
+export default function CartItemList({ cartItems }: CartItemListProps) {
   return (
     <div className="flex flex-col gap-4">
-      <CartItem />
-      <CartItem />
-      <CartItem />
-      <CartItem />
+      {cartItems &&
+        cartItems.map((cartItem) => (
+          <CartItem key={cartItem.id} cartItem={cartItem} />
+        ))}
     </div>
   );
 }

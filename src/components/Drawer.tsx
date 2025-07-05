@@ -1,11 +1,13 @@
+import type { Sneaker } from "../models/sneaker.model";
 import CartItemList from "./CartItemList";
 import DrawerHeader from "./DrawerHeader";
 
 interface DrawerProps {
+  cartItems: Sneaker[];
   toggleCart: () => void;
 }
 
-export default function Drawer({ toggleCart }: DrawerProps) {
+export default function Drawer({ cartItems, toggleCart }: DrawerProps) {
   return (
     <>
       <div
@@ -14,7 +16,7 @@ export default function Drawer({ toggleCart }: DrawerProps) {
       ></div>
       <div className="fixed top-0 right-0 z-20 bg-white w-96 h-full p-8">
         <DrawerHeader toggleCart={toggleCart} />
-        <CartItemList />
+        <CartItemList cartItems={cartItems} />
 
         <div className="flex justify-between mb-6 mt-7">
           <p>Sum:</p>
@@ -23,7 +25,7 @@ export default function Drawer({ toggleCart }: DrawerProps) {
         </div>
 
         <button
-          disabled
+          disabled={cartItems.length === 0}
           className="mt-4 transition bg-lime-500 w-full rounded-xl cursor-pointer py-3 disabled:bg-slate-400 text-white hover:bg-lime-600 active:bg-lime-700"
         >
           Checkout

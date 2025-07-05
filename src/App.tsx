@@ -167,7 +167,7 @@ function App() {
 
   return (
     <>
-      {isCartOpen && <Drawer toggleCart={toggleCart} />}
+      {isCartOpen && <Drawer toggleCart={toggleCart} cartItems={cartItems} />}
       <div className="bg-white w-4/5 m-auto rounded-xl shadow-xl mt-14">
         <Header toggleCart={toggleCart} />
         <div className="p-10">
