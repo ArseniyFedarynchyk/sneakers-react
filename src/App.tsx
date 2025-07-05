@@ -129,6 +129,19 @@ function App() {
   };
 
   const addToCart = (item: Sneaker) => {
+    setCartItems((prevCartItems) => [
+      ...prevCartItems,
+      { ...item, isAdded: true },
+    ]);
+  };
+
+  const removeFromCart = (item: Sneaker) => {
+    setCartItems((prevCartItems) =>
+      prevCartItems.filter((cartItem) => cartItem.id !== item.id)
+    );
+  };
+
+  const onClickAddPlus = (item: Sneaker) => {
     setSneakers((prevSneakers) =>
       prevSneakers.map((sneaker) =>
         sneaker.id === item.id
@@ -137,13 +150,11 @@ function App() {
       )
     );
 
-    setCartItems((prevCartItems) => {
-      if (!item.isAdded) {
-        return [...prevCartItems, { ...item, isAdded: true }];
-      } else {
-        return prevCartItems.filter((cartItem) => cartItem.id !== item.id);
-      }
-    });
+    if (!item.isAdded) {
+      addToCart(item);
+    } else {
+      removeFromCart(item);
+    }
   };
 
   useEffect(() => {
@@ -167,7 +178,13 @@ function App() {
 
   return (
     <>
-      {isCartOpen && <Drawer toggleCart={toggleCart} cartItems={cartItems} />}
+      {isCartOpen && (
+        <Drawer
+          toggleCart={toggleCart}
+          cartItems={cartItems}
+          removeFromCart={onClickAddPlus}
+        />
+      )}
       <div className="bg-white w-4/5 m-auto rounded-xl shadow-xl mt-14">
         <Header toggleCart={toggleCart} />
         <div className="p-10">
@@ -205,7 +222,7 @@ function App() {
           <CardList
             sneakers={sneakers}
             addToFavorites={addToFavorites}
-            addToCart={addToCart}
+            addToCart={onClickAddPlus}
           />
         </div>
       </div>
