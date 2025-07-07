@@ -2,22 +2,24 @@ import Logo from "../assets/logo.png";
 import CartIcon from "../assets/cart.svg";
 import ProfileIcon from "../assets/profile.svg";
 import FavoritesIcon from "../assets/heart.svg";
+import { useContext } from "react";
+import { SneakerContext } from "../store/SneakerContext";
+import { Link } from "react-router";
 
-interface HeaderProps {
-  totalPrice: number;
-  toggleCart: () => void;
-}
+export default function Header() {
+  const { totalPrice, toggleCart } = useContext(SneakerContext);
 
-export default function Header({ totalPrice, toggleCart }: HeaderProps) {
   return (
     <header className="flex justify-between border-b border-slate-200 px-10 py-4">
-      <div className="flex items-center gap-4">
-        <img src={Logo} alt="Logo" className="w-11" />
-        <div>
-          <h2 className="font-bold text-xl uppercase">React sneakers</h2>
-          <p className="text-slate-400">The best sneakers shop ever!</p>
+      <Link to="/">
+        <div className="flex items-center gap-4">
+          <img src={Logo} alt="Logo" className="w-11" />
+          <div>
+            <h2 className="font-bold text-xl uppercase">React sneakers</h2>
+            <p className="text-slate-400">The best sneakers shop ever!</p>
+          </div>
         </div>
-      </div>
+      </Link>
       <ul className="flex items-center gap-10">
         <li
           className="flex items-center gap-3 cursor-pointer text-gray-500 hover:text-black"
@@ -26,10 +28,12 @@ export default function Header({ totalPrice, toggleCart }: HeaderProps) {
           <img src={CartIcon} alt="Cart" />
           <b>{totalPrice} USD</b>
         </li>
-        <li className="flex items-center gap-3 cursor-pointer text-gray-500 hover:text-black">
-          <img src={FavoritesIcon} alt="Favorite" />
-          <span>Favorites</span>
-        </li>
+        <Link to="/favorites">
+          <li className="flex items-center gap-3 cursor-pointer text-gray-500 hover:text-black">
+            <img src={FavoritesIcon} alt="Favorite" />
+            <span>Favorites</span>
+          </li>
+        </Link>
         <li className="flex items-center gap-3 cursor-pointer text-gray-500 hover:text-black">
           <img src={ProfileIcon} alt="Profile" />
           <span>Profile</span>

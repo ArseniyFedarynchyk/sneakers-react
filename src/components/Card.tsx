@@ -4,16 +4,16 @@ import FavoriteIcon from "../assets/like-1.svg";
 import FavoriteAddedIcon from "../assets/like-2.svg";
 import SneakerLogo from "../assets/sneakers/sneakers-1.jpg";
 import type { Sneaker } from "../models/sneaker.model";
+import { useContext } from "react";
+import { SneakerContext } from "../store/SneakerContext";
 
 interface CardProps {
   sneaker: Sneaker;
-  title?: string;
+  title: string;
   imageUrl?: string;
-  price?: number;
+  price: number;
   isFavorite?: boolean;
   isAdded?: boolean;
-  addToFavorites: (item: Sneaker) => void;
-  addToCart: (item: Sneaker) => void;
 }
 
 export default function Card({
@@ -22,9 +22,9 @@ export default function Card({
   price,
   isFavorite,
   isAdded,
-  addToFavorites,
-  addToCart,
 }: CardProps) {
+  const { addToFavorites, addToCart } = useContext(SneakerContext);
+
   return (
     <div className="relative bg-white border border-slate-100 rounded-3xl p-8 cursor-pointer hover:-translate-y-2 hover:shadow-xl transition">
       <img

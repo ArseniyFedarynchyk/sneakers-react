@@ -1,18 +1,10 @@
-import type { Sneaker } from "../models/sneaker.model";
+import { useContext } from "react";
 import Card from "./Card";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { SneakerContext } from "../store/SneakerContext";
 
-interface CardListProps {
-  sneakers: Sneaker[];
-  addToFavorites: (item: Sneaker) => void;
-  addToCart: (item: Sneaker) => void;
-}
-
-export default function CardList({
-  sneakers,
-  addToFavorites,
-  addToCart,
-}: CardListProps) {
+export default function CardList() {
+  const { sneakers } = useContext(SneakerContext);
   const [parent] = useAutoAnimate();
 
   return (
@@ -25,8 +17,6 @@ export default function CardList({
           price={sneaker.price}
           imageUrl={sneaker.imageUrl}
           isFavorite={sneaker.isFavorite}
-          addToFavorites={addToFavorites}
-          addToCart={addToCart}
           isAdded={sneaker.isAdded}
         />
       ))}

@@ -1,25 +1,19 @@
-import type { Sneaker } from "../models/sneaker.model";
+import { useContext } from "react";
 import CartItemList from "./CartItemList";
 import DrawerHeader from "./DrawerHeader";
 import InfoBlock from "./InfoBlock";
+import { SneakerContext } from "../store/SneakerContext";
 
-interface DrawerProps {
-  cartItems: Sneaker[];
-  totalPrice: number;
-  isOrderCreating: boolean;
-  toggleCart: () => void;
-  removeFromCart: (item: Sneaker) => void;
-  createOrder: () => void;
-}
+export default function Drawer() {
+  const {
+    cartItems,
+    totalPrice,
+    isOrderCreating,
+    toggleCart,
+    removeFromCart,
+    createOrder,
+  } = useContext(SneakerContext);
 
-export default function Drawer({
-  cartItems,
-  totalPrice,
-  isOrderCreating,
-  toggleCart,
-  removeFromCart,
-  createOrder,
-}: DrawerProps) {
   return (
     <>
       <div
