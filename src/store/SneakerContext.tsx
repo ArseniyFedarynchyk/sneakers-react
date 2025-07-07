@@ -1,5 +1,6 @@
 import { createContext, useState, useCallback, useEffect } from "react";
 import type { Sneaker } from "../models/sneaker.model";
+import type { Favorite } from "../models/favorite.model";
 
 interface Props {
   children: React.ReactNode;
@@ -7,6 +8,7 @@ interface Props {
 
 interface SneakerContext {
   sneakers: Sneaker[];
+  favorites: Favorite[];
   error: string | null;
   isLoading: boolean;
   filters: { sortBy: string; searchQuerry: string };
@@ -26,6 +28,7 @@ interface SneakerContext {
 
 export const SneakerContext = createContext<SneakerContext>({
   sneakers: [],
+  favorites: [],
   error: null,
   isLoading: false,
   filters: { sortBy: "title", searchQuerry: "" },
@@ -45,6 +48,7 @@ export const SneakerContext = createContext<SneakerContext>({
 
 export default function SneakerProvider({ children }: Props) {
   const [sneakers, setSneakers] = useState<Sneaker[]>([]);
+  const [favorites, setFavorites] = useState<Favorite[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [filters, setFilters] = useState({ sortBy: "title", searchQuerry: "" });
@@ -109,6 +113,16 @@ export default function SneakerProvider({ children }: Props) {
     }
   }, [filters]);
 
+  const fetchFavorites = useCallback(async () => {
+    try {
+      const data = await fetch(`${API_URL}/favorites`);
+      const favorites: Favorite[] = await data.json();
+      setFavorites(favorites);
+    } catch (error) {
+      console.log(error); // handle errors
+    }
+  }, []);
+
   const addToFavorites = async (item: Sneaker) => {
     try {
       setSneakers((prevSneaker) =>
@@ -122,6 +136,7 @@ export default function SneakerProvider({ children }: Props) {
       if (!item.isFavorite) {
         const obj = {
           parentId: item.id,
+          item,
         };
 
         const response = await fetch(`${API_URL}/favorites`, {
@@ -160,8 +175,6 @@ export default function SneakerProvider({ children }: Props) {
               : sneaker;
           })
         );
-
-        console.log(sneakers);
       }
     } catch {
       console.log("Error occured!"); // Handle errors
@@ -239,6 +252,10 @@ export default function SneakerProvider({ children }: Props) {
   }, [fetchData]);
 
   useEffect(() => {
+    fetchFavorites();
+  }, [fetchFavorites, sneakers]);
+
+  useEffect(() => {
     setTotalPrice(cartItems.reduce((acc, item) => acc + +item.price, 0));
   }, [cartItems]);
 
@@ -259,6 +276,7 @@ export default function SneakerProvider({ children }: Props) {
 
   const ctxValue = {
     sneakers,
+    favorites,
     error,
     isLoading,
     filters,
