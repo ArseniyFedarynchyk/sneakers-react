@@ -1,23 +1,30 @@
-import { useContext } from "react";
 import Card from "./Card";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { SneakerContext } from "../store/SneakerContext";
+import type { Sneaker } from "../models/sneaker.model";
 
-export default function CardList() {
-  const { sneakers } = useContext(SneakerContext);
+interface CardListProps {
+  items: Sneaker[];
+  isFavorites?: boolean;
+}
+
+export default function CardList({
+  items,
+  isFavorites = false,
+}: CardListProps) {
   const [parent] = useAutoAnimate();
 
   return (
     <div className="grid grid-cols-4 gap-5 mt-10" ref={parent}>
-      {sneakers.map((sneaker) => (
+      {items.map((item) => (
         <Card
-          key={sneaker.id}
-          sneaker={sneaker}
-          title={sneaker.title}
-          price={sneaker.price}
-          imageUrl={sneaker.imageUrl}
-          isFavorite={sneaker.isFavorite}
-          isAdded={sneaker.isAdded}
+          sneaker={item}
+          key={item.id}
+          title={item.title}
+          price={item.price}
+          imageUrl={item.imageUrl}
+          isFavorite={item.isFavorite}
+          isAdded={item.isAdded}
+          isFavorites={isFavorites}
         />
       ))}
     </div>

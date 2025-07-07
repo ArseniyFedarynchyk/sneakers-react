@@ -14,6 +14,7 @@ interface CardProps {
   price: number;
   isFavorite?: boolean;
   isAdded?: boolean;
+  isFavorites: boolean;
 }
 
 export default function Card({
@@ -22,17 +23,20 @@ export default function Card({
   price,
   isFavorite,
   isAdded,
+  isFavorites,
 }: CardProps) {
   const { addToFavorites, addToCart } = useContext(SneakerContext);
 
   return (
     <div className="relative bg-white border border-slate-100 rounded-3xl p-8 cursor-pointer hover:-translate-y-2 hover:shadow-xl transition">
-      <img
-        src={isFavorite ? FavoriteAddedIcon : FavoriteIcon}
-        alt="Add to favorite icon"
-        className="absolute top-8 left-8 cursor-pointer"
-        onClick={() => addToFavorites(sneaker)}
-      />
+      {!isFavorites && (
+        <img
+          src={isFavorite ? FavoriteAddedIcon : FavoriteIcon}
+          alt="Add to favorite icon"
+          className="absolute top-8 left-8 cursor-pointer"
+          onClick={() => addToFavorites(sneaker)}
+        />
+      )}
       <img src={SneakerLogo} alt="sneaker photo" />
       <p className="mb-5">{title}</p>
       <div className="flex justify-between">
@@ -40,12 +44,14 @@ export default function Card({
           <p className="text-slate-400">Price</p>
           <p className="font-semibold">{price}$</p>
         </div>
-        <img
-          src={!isAdded ? PlusIcon : CheckedIcon}
-          alt="Add to a cart"
-          className="cursor-pointer"
-          onClick={() => addToCart(sneaker)}
-        />
+        {!isFavorites && (
+          <img
+            src={!isAdded ? PlusIcon : CheckedIcon}
+            alt="Add to a cart"
+            className="cursor-pointer"
+            onClick={() => addToCart(sneaker)}
+          />
+        )}
       </div>
     </div>
   );
