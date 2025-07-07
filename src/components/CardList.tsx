@@ -1,5 +1,6 @@
 import type { Sneaker } from "../models/sneaker.model";
 import Card from "./Card";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 interface CardListProps {
   sneakers: Sneaker[];
@@ -12,8 +13,10 @@ export default function CardList({
   addToFavorites,
   addToCart,
 }: CardListProps) {
+  const [parent] = useAutoAnimate();
+
   return (
-    <div className="grid grid-cols-4 gap-5 mt-10">
+    <div className="grid grid-cols-4 gap-5 mt-10" ref={parent}>
       {sneakers.map((sneaker) => (
         <Card
           key={sneaker.id}
