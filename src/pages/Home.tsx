@@ -4,7 +4,7 @@ import { SneakerContext } from "../store/SneakerContext";
 import SearchIcon from "../assets/search.svg";
 
 export default function Home() {
-  const { filters, handleChangeSearchQuerry, handleChangeSelect } =
+  const { sneakers, filters, handleChangeSearchQuerry, handleChangeSelect } =
     useContext(SneakerContext);
 
   return (
@@ -36,7 +36,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <CardList />
+      <CardList items={sneakers} />
     </>
   );
 }
