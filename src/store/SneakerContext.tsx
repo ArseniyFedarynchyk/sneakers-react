@@ -19,7 +19,6 @@ interface SneakerContext {
   orderId: number | null;
   addToFavorites: (item: Sneaker) => void;
   createOrder: () => void;
-  addToCart: (item: Sneaker) => void;
   removeFromCart: (item: Sneaker) => void;
   onClickAddPlus: (item: Sneaker) => void;
   handleChangeSelect: (sortBy: string) => void;
@@ -40,7 +39,6 @@ export const SneakerContext = createContext<SneakerContext>({
   orderId: null,
   addToFavorites: () => {},
   createOrder: () => {},
-  addToCart: () => {},
   removeFromCart: () => {},
   onClickAddPlus: () => {},
   handleChangeSelect: () => {},
@@ -77,13 +75,22 @@ export default function SneakerProvider({ children }: Props) {
       const data = await fetch(URL);
       const fetchedSneakers: Sneaker[] = await data.json();
 
-      const updatedSneakers = fetchedSneakers.map((sneaker) => ({
-        ...sneaker,
-        parentId: null,
-        isFavorite: false,
-        isAdded: false,
-      }));
-      setSneakers(updatedSneakers);
+      const storedCartItems = localStorage.getItem("cartItems");
+      const cartItems: Sneaker[] = storedCartItems
+        ? JSON.parse(storedCartItems)
+        : [];
+
+      const updatedSneakers = fetchedSneakers.map((sneaker) => {
+        const isAdded = cartItems.some(
+          (cartItem) => cartItem.id === sneaker.id
+        );
+        return {
+          ...sneaker,
+          parentId: null,
+          isFavorite: false,
+          isAdded: isAdded,
+        };
+      });
 
       const favoritesData = await fetch(`${API_URL}/favorites`);
       const favorites: Sneaker[] = await favoritesData.json();
@@ -214,25 +221,18 @@ export default function SneakerProvider({ children }: Props) {
     }
   };
 
-  const addToCart = (item: Sneaker) => {
-    setCartItems((prevCartItems) => [
-      ...prevCartItems,
-      { ...item, isAdded: true },
-    ]);
-
-    setSneakers((prevSneaker) =>
-      prevSneaker.map((sneaker) => {
-        return sneaker.id === item.id
-          ? { ...sneaker, isAdded: !sneaker.isAdded }
-          : sneaker;
-      })
-    );
+  const updateLocalStorage = (cartItems: Sneaker[]) => {
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
   };
 
   const removeFromCart = (item: Sneaker) => {
-    setCartItems((prevCartItems) =>
-      prevCartItems.filter((cartItem) => cartItem.id !== item.id)
-    );
+    setCartItems((prevCartItems) => {
+      const newCartItems = prevCartItems.filter(
+        (cartItem) => cartItem.id !== item.id
+      );
+      localStorage.setItem("cartItems", JSON.stringify(newCartItems));
+      return newCartItems;
+    });
 
     setSneakers((prevSneakers) =>
       prevSneakers.map((sneaker) =>
@@ -256,18 +256,27 @@ export default function SneakerProvider({ children }: Props) {
             : sneaker
         );
 
-        if (!isCurrentlyAdded) {
-          setCartItems((prevCartItems) => {
+        setCartItems((prevCartItems) => {
+          let newCartItems;
+
+          if (!isCurrentlyAdded) {
+            // Add item to cart
             if (!prevCartItems.some((cartItem) => cartItem.id === item.id)) {
-              return [...prevCartItems, { ...item, isAdded: true }];
+              newCartItems = [...prevCartItems, { ...item, isAdded: true }];
+            } else {
+              newCartItems = prevCartItems; // No change if already in cart
             }
-            return prevCartItems;
-          });
-        } else {
-          setCartItems((prevCartItems) =>
-            prevCartItems.filter((cartItem) => cartItem.id !== item.id)
-          );
-        }
+          } else {
+            // Remove item from cart
+            newCartItems = prevCartItems.filter(
+              (cartItem) => cartItem.id !== item.id
+            );
+          }
+
+          // Update localStorage
+          updateLocalStorage(newCartItems);
+          return newCartItems;
+        });
 
         return updatedSneakers;
       }
@@ -279,6 +288,13 @@ export default function SneakerProvider({ children }: Props) {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  useEffect(() => {
+    const storedCartItems = localStorage.getItem("cartItems");
+    if (storedCartItems) {
+      setCartItems(JSON.parse(storedCartItems));
+    }
+  }, []);
 
   useEffect(() => {
     fetchFavorites();
@@ -317,7 +333,6 @@ export default function SneakerProvider({ children }: Props) {
     orderId,
     addToFavorites,
     createOrder,
-    addToCart,
     removeFromCart,
     onClickAddPlus,
     handleChangeSelect,
