@@ -1,4 +1,5 @@
 import PackageIcon from "../assets/package-icon.png";
+import OrderSuccessIcon from "../assets/order-success-icon.png";
 
 interface InfoBlockProps {
   imageUrl?: string;

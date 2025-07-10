@@ -16,6 +16,7 @@ interface SneakerContext {
   cartItems: Sneaker[];
   totalPrice: number;
   isOrderCreating: boolean;
+  orderId: number | null;
   addToFavorites: (item: Sneaker) => void;
   createOrder: () => void;
   addToCart: (item: Sneaker) => void;
@@ -36,6 +37,7 @@ export const SneakerContext = createContext<SneakerContext>({
   cartItems: [],
   totalPrice: 0,
   isOrderCreating: false,
+  orderId: null,
   addToFavorites: () => {},
   createOrder: () => {},
   addToCart: () => {},
@@ -56,6 +58,7 @@ export default function SneakerProvider({ children }: Props) {
   const [cartItems, setCartItems] = useState<Sneaker[]>([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [isOrderCreating, setIsOrderCreating] = useState(false);
+  const [orderId, setOrderId] = useState<number | null>(null);
 
   const API_URL = "https://f67e77c455aa171b.mokky.dev";
 
@@ -202,7 +205,8 @@ export default function SneakerProvider({ children }: Props) {
       setCartItems([]);
 
       const data = await response.json();
-      return data;
+
+      setOrderId(data.id);
     } catch (error) {
       console.error(error);
     } finally {
@@ -284,6 +288,7 @@ export default function SneakerProvider({ children }: Props) {
     cartItems,
     totalPrice,
     isOrderCreating,
+    orderId,
     addToFavorites,
     createOrder,
     addToCart,

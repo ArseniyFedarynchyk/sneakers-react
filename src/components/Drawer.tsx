@@ -9,6 +9,7 @@ export default function Drawer() {
     cartItems,
     totalPrice,
     isOrderCreating,
+    orderId,
     toggleCart,
     removeFromCart,
     createOrder,
@@ -22,12 +23,20 @@ export default function Drawer() {
       ></div>
       <div className="fixed top-0 right-0 z-20 bg-white w-96 h-full p-8">
         <DrawerHeader toggleCart={toggleCart} />
-        {totalPrice === 0 ? (
+        {totalPrice === 0 || orderId ? (
           <div className="flex h-full items-center">
-            <InfoBlock
-              title="Cart is empty"
-              description="Add some sneakers to make an order"
-            />
+            {totalPrice === 0 && !orderId && (
+              <InfoBlock
+                title="Cart is empty"
+                description="Add some sneakers to make an order"
+              />
+            )}
+            {orderId && (
+              <InfoBlock
+                title="Order was created"
+                description="Your order will be delivered soon"
+              />
+            )}
           </div>
         ) : (
           <div>
