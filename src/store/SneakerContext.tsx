@@ -276,6 +276,7 @@ export default function SneakerProvider({ children }: Props) {
 
   const toggleCart = () => {
     setIsCartOpen((prevIsCartOpen) => !prevIsCartOpen);
+    setOrderId(null);
   };
 
   const ctxValue = {
