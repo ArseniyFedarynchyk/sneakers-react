@@ -1,8 +1,9 @@
-interface DrawerHeaderProps {
-  toggleCart: () => void;
-}
+import { useContext } from "react";
+import { SneakerContext } from "../store/SneakerContext";
 
-export default function DrawerHeader({ toggleCart }: DrawerHeaderProps) {
+export default function DrawerHeader() {
+  const { toggleCart } = useContext(SneakerContext);
+
   return (
     <div className="flex items-center gap-5 mb-8">
       <svg

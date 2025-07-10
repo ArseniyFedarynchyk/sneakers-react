@@ -11,7 +11,6 @@ export default function Drawer() {
     isOrderCreating,
     orderId,
     toggleCart,
-    removeFromCart,
     createOrder,
   } = useContext(SneakerContext);
 
@@ -22,7 +21,7 @@ export default function Drawer() {
         onClick={toggleCart}
       ></div>
       <div className="fixed top-0 right-0 z-20 bg-white w-96 h-full p-8">
-        <DrawerHeader toggleCart={toggleCart} />
+        <DrawerHeader />
         {totalPrice === 0 || orderId ? (
           <div className="flex h-full items-center">
             {totalPrice === 0 && !orderId && (
@@ -42,10 +41,7 @@ export default function Drawer() {
           </div>
         ) : (
           <div>
-            <CartItemList
-              cartItems={cartItems}
-              removeFromCart={removeFromCart}
-            />
+            <CartItemList />
 
             <div>
               <div className="flex justify-between mb-6 mt-7">

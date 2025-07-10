@@ -1,27 +1,17 @@
-import type { Sneaker } from "../models/sneaker.model";
+import { useContext } from "react";
 import CartItem from "./CartItem";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { SneakerContext } from "../store/SneakerContext";
 
-interface CartItemListProps {
-  cartItems: Sneaker[];
-  removeFromCart: (item: Sneaker) => void;
-}
-
-export default function CartItemList({
-  cartItems,
-  removeFromCart,
-}: CartItemListProps) {
+export default function CartItemList() {
   const [parent] = useAutoAnimate();
+  const { cartItems } = useContext(SneakerContext);
 
   return (
     <div className="flex flex-col gap-4" ref={parent}>
       {cartItems &&
         cartItems.map((cartItem) => (
-          <CartItem
-            key={cartItem.id}
-            cartItem={cartItem}
-            removeFromCart={removeFromCart}
-          />
+          <CartItem key={cartItem.id} cartItem={cartItem} />
         ))}
     </div>
   );
