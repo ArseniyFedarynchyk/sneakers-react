@@ -25,7 +25,7 @@ export default function Card({
   isAdded,
   isFavorites,
 }: CardProps) {
-  const { addToFavorites, addToCart } = useContext(SneakerContext);
+  const { addToFavorites, onClickAddPlus } = useContext(SneakerContext);
 
   return (
     <div className="relative bg-white border border-slate-100 rounded-3xl p-8 cursor-pointer hover:-translate-y-2 hover:shadow-xl transition">
@@ -49,7 +49,7 @@ export default function Card({
             src={!isAdded ? PlusIcon : CheckedIcon}
             alt="Add to a cart"
             className="cursor-pointer"
-            onClick={() => addToCart(sneaker)}
+            onClick={() => onClickAddPlus(sneaker)}
           />
         )}
       </div>
