@@ -29,12 +29,14 @@ export default function Drawer() {
               <InfoBlock
                 title="Cart is empty"
                 description="Add some sneakers to make an order"
+                empty={true}
               />
             )}
             {orderId && (
               <InfoBlock
                 title="Order was created"
                 description="Your order will be delivered soon"
+                empty={false}
               />
             )}
           </div>
