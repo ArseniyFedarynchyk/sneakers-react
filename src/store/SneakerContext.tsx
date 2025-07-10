@@ -122,7 +122,7 @@ export default function SneakerProvider({ children }: Props) {
       const favorites: Favorite[] = await data.json();
       setFavorites(favorites);
     } catch (error) {
-      console.log(error); // handle errors
+      console.log(error);
     }
   }, []);
 
@@ -180,7 +180,7 @@ export default function SneakerProvider({ children }: Props) {
         );
       }
     } catch {
-      console.log("Error occured!"); // Handle errors
+      console.log("Error occured!");
     }
   };
 
@@ -215,6 +215,11 @@ export default function SneakerProvider({ children }: Props) {
   };
 
   const addToCart = (item: Sneaker) => {
+    setCartItems((prevCartItems) => [
+      ...prevCartItems,
+      { ...item, isAdded: true },
+    ]);
+
     setSneakers((prevSneaker) =>
       prevSneaker.map((sneaker) => {
         return sneaker.id === item.id
@@ -222,33 +227,53 @@ export default function SneakerProvider({ children }: Props) {
           : sneaker;
       })
     );
-
-    setCartItems((prevCartItems) => [
-      ...prevCartItems,
-      { ...item, isAdded: true },
-    ]);
   };
 
   const removeFromCart = (item: Sneaker) => {
     setCartItems((prevCartItems) =>
       prevCartItems.filter((cartItem) => cartItem.id !== item.id)
     );
+
+    setSneakers((prevSneakers) =>
+      prevSneakers.map((sneaker) =>
+        sneaker.id === item.id ? { ...sneaker, isAdded: false } : sneaker
+      )
+    );
   };
 
   const onClickAddPlus = (item: Sneaker) => {
-    setSneakers((prevSneakers) =>
-      prevSneakers.map((sneaker) =>
-        sneaker.id === item.id
-          ? { ...sneaker, isAdded: !sneaker.isAdded }
-          : sneaker
-      )
-    );
+    setSneakers((prevSneakers) => {
+      const sneakerToUpdate = prevSneakers.find(
+        (sneaker) => sneaker.id === item.id
+      );
 
-    if (!item.isAdded) {
-      addToCart(item);
-    } else {
-      removeFromCart(item);
-    }
+      if (sneakerToUpdate) {
+        const isCurrentlyAdded = sneakerToUpdate.isAdded;
+
+        const updatedSneakers = prevSneakers.map((sneaker) =>
+          sneaker.id === item.id
+            ? { ...sneaker, isAdded: !isCurrentlyAdded }
+            : sneaker
+        );
+
+        if (!isCurrentlyAdded) {
+          setCartItems((prevCartItems) => {
+            if (!prevCartItems.some((cartItem) => cartItem.id === item.id)) {
+              return [...prevCartItems, { ...item, isAdded: true }];
+            }
+            return prevCartItems;
+          });
+        } else {
+          setCartItems((prevCartItems) =>
+            prevCartItems.filter((cartItem) => cartItem.id !== item.id)
+          );
+        }
+
+        return updatedSneakers;
+      }
+
+      return prevSneakers;
+    });
   };
 
   useEffect(() => {
