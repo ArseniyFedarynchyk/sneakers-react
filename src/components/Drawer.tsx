@@ -20,7 +20,7 @@ export default function Drawer() {
         className="fixed top-0 left-0 h-full w-full bg-black z-10 opacity-60"
         onClick={toggleCart}
       ></div>
-      <div className="fixed top-0 right-0 z-20 bg-white w-96 h-full p-8">
+      <div className="flex flex-col fixed top-0 right-0 z-20 bg-white w-96 h-full p-8">
         <DrawerHeader />
         {totalPrice === 0 || orderId ? (
           <div className="flex h-full items-center">
@@ -40,9 +40,10 @@ export default function Drawer() {
             )}
           </div>
         ) : (
-          <div>
-            <CartItemList />
-
+          <>
+            <div className="flex-1 overflow-y-auto">
+              <CartItemList />
+            </div>
             <div>
               <div className="flex justify-between mb-6 mt-7">
                 <p>Sum:</p>
@@ -57,7 +58,7 @@ export default function Drawer() {
                 Checkout
               </button>
             </div>
-          </div>
+          </>
         )}
       </div>
     </>
