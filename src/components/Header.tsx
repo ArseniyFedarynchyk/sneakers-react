@@ -10,7 +10,7 @@ export default function Header() {
   const { totalPrice, toggleCart } = useContext(SneakerContext);
 
   return (
-    <header className="flex justify-between border-b border-slate-200 px-10 py-4">
+    <header className="sticky top-0 z-5 bg-white flex justify-between border-b border-slate-200 px-10 py-4">
       <Link to="/">
         <div className="flex items-center gap-4">
           <img src={Logo} alt="Logo" className="w-11" />
