@@ -14,7 +14,10 @@ export default function CardList({
   const [parent] = useAutoAnimate();
 
   return (
-    <div className="grid grid-cols-4 gap-5 mt-10" ref={parent}>
+    <div
+      className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-10"
+      ref={parent}
+    >
       {items.map((item) => (
         <Card
           sneaker={item}
