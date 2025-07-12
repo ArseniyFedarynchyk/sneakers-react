@@ -260,20 +260,16 @@ export default function SneakerProvider({ children }: Props) {
           let newCartItems;
 
           if (!isCurrentlyAdded) {
-            // Add item to cart
             if (!prevCartItems.some((cartItem) => cartItem.id === item.id)) {
               newCartItems = [...prevCartItems, { ...item, isAdded: true }];
             } else {
-              newCartItems = prevCartItems; // No change if already in cart
+              newCartItems = prevCartItems;
             }
           } else {
-            // Remove item from cart
             newCartItems = prevCartItems.filter(
               (cartItem) => cartItem.id !== item.id
             );
           }
-
-          // Update localStorage
           updateLocalStorage(newCartItems);
           return newCartItems;
         });
@@ -303,6 +299,18 @@ export default function SneakerProvider({ children }: Props) {
   useEffect(() => {
     setTotalPrice(cartItems.reduce((acc, item) => acc + +item.price, 0));
   }, [cartItems]);
+
+  useEffect(() => {
+    if (isCartOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isCartOpen]);
 
   const handleChangeSelect = (sortBy: string) => {
     setFilters((prevFilters) => ({ ...prevFilters, sortBy: sortBy }));
