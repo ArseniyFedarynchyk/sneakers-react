@@ -1,6 +1,5 @@
 import { createContext, useState, useCallback, useEffect } from "react";
 import type { Sneaker } from "../models/sneaker.model";
-import type { Favorite } from "../models/favorite.model";
 
 interface Props {
   children: React.ReactNode;
@@ -8,7 +7,7 @@ interface Props {
 
 interface SneakerContext {
   sneakers: Sneaker[];
-  favorites: Favorite[];
+  favorites: Sneaker[];
   error: string | null;
   isLoading: boolean;
   filters: { sortBy: string; searchQuerry: string };
@@ -28,7 +27,7 @@ interface SneakerContext {
 
 export const SneakerContext = createContext<SneakerContext>({
   sneakers: [],
-  favorites: [],
+  favorites: JSON.parse(localStorage.getItem("favorites")!) || [],
   error: null,
   isLoading: false,
   filters: { sortBy: "title", searchQuerry: "" },
@@ -48,7 +47,7 @@ export const SneakerContext = createContext<SneakerContext>({
 
 export default function SneakerProvider({ children }: Props) {
   const [sneakers, setSneakers] = useState<Sneaker[]>([]);
-  const [favorites, setFavorites] = useState<Favorite[]>([]);
+  const [favorites, setFavorites] = useState<Sneaker[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [filters, setFilters] = useState({ sortBy: "title", searchQuerry: "" });
@@ -80,36 +79,27 @@ export default function SneakerProvider({ children }: Props) {
         ? JSON.parse(storedCartItems)
         : [];
 
+      const storedFavorites = localStorage.getItem("favorites");
+      const favorites: Sneaker[] = storedFavorites
+        ? JSON.parse(storedFavorites)
+        : [];
+
       const updatedSneakers = fetchedSneakers.map((sneaker) => {
         const isAdded = cartItems.some(
           (cartItem) => cartItem.id === sneaker.id
         );
+        const isFavorite = favorites.some(
+          (favorite) => favorite.id === sneaker.id
+        );
         return {
           ...sneaker,
           parentId: null,
-          isFavorite: false,
+          isFavorite: isFavorite,
           isAdded: isAdded,
         };
       });
 
-      const favoritesData = await fetch(`${API_URL}/favorites`);
-      const favorites: Sneaker[] = await favoritesData.json();
-
-      const sneakersWithFavorites = updatedSneakers.map((sneaker) => {
-        const favorite = favorites.find(
-          (favorite) => favorite.parentId === sneaker.id
-        );
-
-        return !favorite
-          ? sneaker
-          : {
-              ...sneaker,
-              isFavorite: true,
-              favoriteId: favorite.id,
-            };
-      });
-
-      setSneakers(sneakersWithFavorites);
+      setSneakers(updatedSneakers);
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);
@@ -123,71 +113,29 @@ export default function SneakerProvider({ children }: Props) {
     }
   }, [filters]);
 
-  const fetchFavorites = useCallback(async () => {
-    try {
-      const data = await fetch(`${API_URL}/favorites`);
-      const favorites: Favorite[] = await data.json();
-      setFavorites(favorites);
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
+  const addToFavorites = (item: Sneaker) => {
+    setSneakers((prevSneaker) =>
+      prevSneaker.map((sneaker) => {
+        return sneaker.id === item.id
+          ? { ...sneaker, isFavorite: !sneaker.isFavorite }
+          : sneaker;
+      })
+    );
 
-  const addToFavorites = async (item: Sneaker) => {
-    try {
-      setSneakers((prevSneaker) =>
-        prevSneaker.map((sneaker) => {
-          return sneaker.id === item.id
-            ? { ...sneaker, isFavorite: !sneaker.isFavorite }
-            : sneaker;
-        })
-      );
-
-      if (!item.isFavorite) {
-        const obj = {
-          parentId: item.id,
-          item,
-        };
-
-        const response = await fetch(`${API_URL}/favorites`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(obj),
-        });
-
-        const data = await response.json();
-
-        setSneakers((prevSneakers) =>
-          prevSneakers.map((sneaker) =>
-            sneaker.id === item.id
-              ? {
-                  ...sneaker,
-                  parentId: item.id,
-                  favoriteId: data.id,
-                }
-              : sneaker
-          )
+    if (!item.isFavorite) {
+      setFavorites((prevFavorites) => {
+        const newFavorites = [...prevFavorites, { ...item, isFavorite: true }];
+        updateFavoritesLocalStorage(newFavorites);
+        return newFavorites;
+      });
+    } else {
+      setFavorites((prevFavorites) => {
+        const newFavorites = prevFavorites.filter(
+          (favorite) => favorite.id !== item.id
         );
-      } else {
-        await fetch(`${API_URL}/favorites/${item.favoriteId}`, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        setSneakers((prevSneakers) =>
-          prevSneakers.map((sneaker) => {
-            return sneaker.id === item.parentId
-              ? { ...sneaker, favoriteId: null }
-              : sneaker;
-          })
-        );
-      }
-    } catch {
-      console.log("Error occured!");
+        updateFavoritesLocalStorage(newFavorites);
+        return newFavorites;
+      });
     }
   };
 
@@ -225,12 +173,16 @@ export default function SneakerProvider({ children }: Props) {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
   };
 
+  const updateFavoritesLocalStorage = (favorites: Sneaker[]) => {
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  };
+
   const removeFromCart = (item: Sneaker) => {
     setCartItems((prevCartItems) => {
       const newCartItems = prevCartItems.filter(
         (cartItem) => cartItem.id !== item.id
       );
-      localStorage.setItem("cartItems", JSON.stringify(newCartItems));
+      updateLocalStorage(newCartItems);
       return newCartItems;
     });
 
@@ -239,9 +191,17 @@ export default function SneakerProvider({ children }: Props) {
         sneaker.id === item.id ? { ...sneaker, isAdded: false } : sneaker
       )
     );
+
+    setFavorites((prevFavorites) => {
+      const newFavorites = prevFavorites.map((favorite) =>
+        favorite.id === item.id ? { ...favorite, isAdded: false } : favorite
+      );
+      updateFavoritesLocalStorage(newFavorites);
+      return newFavorites;
+    });
   };
 
-  const onClickAddPlus = (item: Sneaker) => {
+  const onClickAddPlus = async (item: Sneaker) => {
     setSneakers((prevSneakers) => {
       const sneakerToUpdate = prevSneakers.find(
         (sneaker) => sneaker.id === item.id
@@ -255,6 +215,16 @@ export default function SneakerProvider({ children }: Props) {
             ? { ...sneaker, isAdded: !isCurrentlyAdded }
             : sneaker
         );
+
+        setFavorites((prevFavorites) => {
+          const newFavorites = prevFavorites.map((favorite) =>
+            favorite.id === item.id
+              ? { ...favorite, isAdded: !isCurrentlyAdded }
+              : favorite
+          );
+          updateFavoritesLocalStorage(newFavorites);
+          return newFavorites;
+        });
 
         setCartItems((prevCartItems) => {
           let newCartItems;
@@ -282,19 +252,20 @@ export default function SneakerProvider({ children }: Props) {
   };
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
-
-  useEffect(() => {
     const storedCartItems = localStorage.getItem("cartItems");
+    const storedFavorites = localStorage.getItem("favorites");
+
     if (storedCartItems) {
       setCartItems(JSON.parse(storedCartItems));
+    }
+    if (storedFavorites) {
+      setFavorites(JSON.parse(storedFavorites));
     }
   }, []);
 
   useEffect(() => {
-    fetchFavorites();
-  }, [fetchFavorites, sneakers]);
+    fetchData();
+  }, [fetchData]);
 
   useEffect(() => {
     setTotalPrice(cartItems.reduce((acc, item) => acc + +item.price, 0));

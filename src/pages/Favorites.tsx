@@ -8,7 +8,7 @@ export default function Faorites() {
   return (
     <>
       <h2 className="text-3xl font-bold">Favorites</h2>
-      <CardList items={favorites.map((item) => item.item)} isFavorites={true} />
+      <CardList items={favorites} />
     </>
   );
 }

@@ -4,13 +4,9 @@ import type { Sneaker } from "../models/sneaker.model";
 
 interface CardListProps {
   items: Sneaker[];
-  isFavorites?: boolean;
 }
 
-export default function CardList({
-  items,
-  isFavorites = false,
-}: CardListProps) {
+export default function CardList({ items }: CardListProps) {
   const [parent] = useAutoAnimate();
 
   return (
@@ -27,7 +23,7 @@ export default function CardList({
           imageUrl={item.imageUrl}
           isFavorite={item.isFavorite}
           isAdded={item.isAdded}
-          isFavorites={isFavorites}
+          isFavorites={false}
         />
       ))}
     </div>
