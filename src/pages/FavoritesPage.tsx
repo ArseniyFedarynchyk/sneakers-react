@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { SneakerContext } from "../store/SneakerContext";
 import CardList from "../components/CardList";
 
-export default function Faorites() {
+export default function FaoritesPage() {
   const { favorites } = useContext(SneakerContext);
 
   return (

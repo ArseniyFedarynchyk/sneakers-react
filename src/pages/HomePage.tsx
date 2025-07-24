@@ -3,7 +3,7 @@ import CardList from "../components/CardList";
 import { SneakerContext } from "../store/SneakerContext";
 import SearchIcon from "../assets/search.svg";
 
-export default function Home() {
+export default function HomePage() {
   const { sneakers, filters, handleChangeSearchQuerry, handleChangeSelect } =
     useContext(SneakerContext);
 
