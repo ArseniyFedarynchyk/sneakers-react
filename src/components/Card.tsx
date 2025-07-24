@@ -5,6 +5,7 @@ import FavoriteAddedIcon from "../assets/like-2.svg";
 import type { Sneaker } from "../models/sneaker.model";
 import { useContext } from "react";
 import { SneakerContext } from "../store/SneakerContext";
+import { getImageSource } from "../helper";
 
 interface CardProps {
   sneaker: Sneaker;
