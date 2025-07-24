@@ -1,5 +1,6 @@
 import { createContext, useState, useCallback, useEffect } from "react";
 import type { Sneaker } from "../models/sneaker.model";
+import { API_URL } from "../App";
 
 interface Props {
   children: React.ReactNode;
@@ -56,8 +57,6 @@ export default function SneakerProvider({ children }: Props) {
   const [totalPrice, setTotalPrice] = useState(0);
   const [isOrderCreating, setIsOrderCreating] = useState(false);
   const [orderId, setOrderId] = useState<number | null>(null);
-
-  const API_URL = "https://f67e77c455aa171b.mokky.dev";
 
   const fetchData = useCallback(async () => {
     setIsLoading(true);
