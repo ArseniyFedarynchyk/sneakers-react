@@ -3,14 +3,20 @@ import Home from "./pages/Home";
 import Favorites from "./pages/Favorites";
 import SneakerProvider from "./store/SneakerContext";
 import RootLayout from "./layouts/RootLayout";
+import SneakerDetailsPage, {
+  loader as sneakerDetailsLoader,
+} from "./pages/SneakerDetailsPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
     children: [
-      { path: "/", element: <Home /> },
-      { path: "/favorites", element: <Favorites /> },
+      {
+        path: "sneakers/:sneakerId",
+        element: <SneakerDetailsPage />,
+        loader: sneakerDetailsLoader,
+      },
     ],
   },
 ]);
