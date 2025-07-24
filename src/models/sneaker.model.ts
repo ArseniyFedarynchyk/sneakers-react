@@ -3,6 +3,7 @@ export interface Sneaker {
   title: string;
   price: number;
   imageUrl: string;
+  description: string;
   isFavorite?: boolean;
   isAdded?: boolean;
   favoriteId?: number | null;
