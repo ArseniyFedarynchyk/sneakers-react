@@ -6,14 +6,8 @@ import { SneakerContext } from "../store/SneakerContext";
 import { Link } from "react-router";
 
 export default function Drawer() {
-  const {
-    cartItems,
-    totalPrice,
-    isOrderCreating,
-    orderId,
-    toggleCart,
-    createOrder,
-  } = useContext(SneakerContext);
+  const { cartItems, totalPrice, isOrderCreating, orderId, toggleCart } =
+    useContext(SneakerContext);
 
   return (
     <>
@@ -55,10 +49,7 @@ export default function Drawer() {
                 <button
                   disabled={cartItems.length === 0 || isOrderCreating}
                   className="mt-4 transition bg-lime-500 w-full rounded-xl cursor-pointer py-3 disabled:bg-slate-400 text-white hover:bg-lime-600 active:bg-lime-700"
-                  onClick={() => {
-                    createOrder();
-                    toggleCart();
-                  }}
+                  onClick={() => toggleCart()}
                 >
                   Checkout
                 </button>
