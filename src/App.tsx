@@ -6,6 +6,7 @@ import SneakerDetailsPage, {
   loader as sneakerDetailsLoader,
 } from "./pages/SneakerDetailsPage";
 import FavoritesPage from "./pages/FavoritesPage";
+import CheckoutPage from "./pages/CheckoutPage";
 
 export const API_URL = "https://f67e77c455aa171b.mokky.dev";
 
@@ -16,6 +17,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <HomePage /> },
       { path: "favorites", element: <FavoritesPage /> },
+      { path: "checkout", element: <CheckoutPage /> },
       {
         path: "sneakers/:sneakerId",
         element: <SneakerDetailsPage />,
