@@ -3,6 +3,7 @@ import CartItemList from "./CartItemList";
 import DrawerHeader from "./DrawerHeader";
 import InfoBlock from "./InfoBlock";
 import { SneakerContext } from "../store/SneakerContext";
+import { Link } from "react-router";
 
 export default function Drawer() {
   const {
@@ -50,13 +51,18 @@ export default function Drawer() {
                 <div className="flex-1"></div>
                 <p>{totalPrice} USD</p>
               </div>
-              <button
-                disabled={cartItems.length === 0 || isOrderCreating}
-                className="mt-4 transition bg-lime-500 w-full rounded-xl cursor-pointer py-3 disabled:bg-slate-400 text-white hover:bg-lime-600 active:bg-lime-700"
-                onClick={createOrder}
-              >
-                Checkout
-              </button>
+              <Link to="checkout">
+                <button
+                  disabled={cartItems.length === 0 || isOrderCreating}
+                  className="mt-4 transition bg-lime-500 w-full rounded-xl cursor-pointer py-3 disabled:bg-slate-400 text-white hover:bg-lime-600 active:bg-lime-700"
+                  onClick={() => {
+                    createOrder();
+                    toggleCart();
+                  }}
+                >
+                  Checkout
+                </button>
+              </Link>
             </div>
           </>
         )}
