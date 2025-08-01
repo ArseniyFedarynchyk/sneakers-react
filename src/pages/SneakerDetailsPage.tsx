@@ -14,5 +14,27 @@ export async function loader({ params }: LoaderFunctionArgs) {
   if (!response.ok) {
     throw new Response("Not Found", { status: 404 });
   }
-  return response.json();
+  const data: Sneaker = await response.json();
+
+  const storedCartItems = localStorage.getItem("cartItems");
+  const cartItems: Sneaker[] = storedCartItems
+    ? JSON.parse(storedCartItems)
+    : [];
+
+  const storedFavorites = localStorage.getItem("favorites");
+  const favorites: Sneaker[] = storedFavorites
+    ? JSON.parse(storedFavorites)
+    : [];
+
+  const sneaker: Sneaker = {
+    ...data,
+    isFavorite: favorites.find((favorite) => favorite.id === data.id)
+      ? true
+      : false,
+    isAdded: cartItems.find((cartItem) => cartItem.id === data.id)
+      ? true
+      : false,
+  };
+
+  return sneaker;
 }
