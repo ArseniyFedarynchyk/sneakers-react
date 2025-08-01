@@ -1,11 +1,14 @@
+import { useContext } from "react";
 import { getImageSource } from "../helper";
 import type { Sneaker } from "../models/sneaker.model";
+import { SneakerContext } from "../store/SneakerContext";
 
 interface SneakerDetailProps {
   sneakerSelected: Sneaker;
 }
 
 export default function SneakerDetail({ sneakerSelected }: SneakerDetailProps) {
+  const { addToFavorites, onClickAddPlus } = useContext(SneakerContext);
   const sneakerImage = getImageSource(sneakerSelected.imageUrl);
 
   return (
@@ -18,10 +21,16 @@ export default function SneakerDetail({ sneakerSelected }: SneakerDetailProps) {
         </p>
         <div className="text-lg font-semibold mb-4">{`Price: ${sneakerSelected.price}$`}</div>
         <div className="flex justify-between">
-          <button className="bg-lime-500 text-white font-bold py-2 px-4 rounded hover:bg-lime-600 active:bg-lime-700 cursor-pointer">
+          <button
+            className="bg-lime-500 text-white font-bold py-2 px-4 rounded hover:bg-lime-600 active:bg-lime-700 cursor-pointer"
+            onClick={() => onClickAddPlus(sneakerSelected)}
+          >
             Add to Cart
           </button>
-          <button className="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400 cursor-pointer">
+          <button
+            className="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400 cursor-pointer"
+            onClick={() => addToFavorites(sneakerSelected)}
+          >
             Add to Favorites
           </button>
         </div>
