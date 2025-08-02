@@ -38,7 +38,7 @@ export default function CheckoutForm() {
       {totalPrice !== 0 ? (
         <div>
           <div>
-            <h3 className="mb-3">Your Cart:</h3>
+            <h3 className="text-2xl md:text-3xl font-bold mb-3">Your Cart</h3>
             <CartItemList />
             <p className="my-3 font-bold">Sum: {totalPrice} USD</p>
           </div>
@@ -71,7 +71,7 @@ export default function CheckoutForm() {
                 handleOnChange("email", e.target.value)
               }
             />
-            <div className="flex gap-3">
+            <div className="flex flex-col md:flex-row gap-3">
               <Input
                 type="text"
                 placeholder="Street"
@@ -80,28 +80,28 @@ export default function CheckoutForm() {
                   handleOnChange("street", e.target.value)
                 }
               />
-              <Input
-                className="basis-1/5 border border-gray-200 rounded-md py-2 px-4 outline-none focus:border-gray-400 w-full"
-                type="number"
-                placeholder="No."
-                value={form.streetNumber}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  handleOnChange("streetNumber", e.target.value)
-                }
-              />
-              <Input
-                className="basis-1/5 border border-gray-200 rounded-md py-2 px-4 outline-none focus:border-gray-400 w-full"
-                type="number"
-                placeholder="Apt No."
-                value={form.apartment}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  handleOnChange("apartment", e.target.value)
-                }
-              />
+              <div className="flex sm:flex-row flex-col gap-3">
+                <Input
+                  type="number"
+                  placeholder="No."
+                  value={form.streetNumber}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleOnChange("streetNumber", e.target.value)
+                  }
+                />
+                <Input
+                  type="number"
+                  placeholder="Apt No."
+                  value={form.apartment}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleOnChange("apartment", e.target.value)
+                  }
+                />
+              </div>
             </div>
             <div className="flex gap-3">
               <Input
-                className="basis-1/5 border border-gray-200 rounded-md py-2 px-4 outline-none focus:border-gray-400 w-full"
+                className="md:basis-1/3 border border-gray-200 rounded-md py-2 px-4 outline-none focus:border-gray-400 w-full"
                 type="text"
                 placeholder="Postal Code"
                 value={form.postalCode}
