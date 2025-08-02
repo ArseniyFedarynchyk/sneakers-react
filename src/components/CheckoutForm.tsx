@@ -1,6 +1,36 @@
+import { useContext, useState, type FormEvent } from "react";
 import Input from "./Input";
+import { SneakerContext } from "../store/SneakerContext";
+import type { ShippingDetails } from "../models/shippingDetails.model";
 
 export default function CheckoutForm() {
+  const { totalPrice, createOrder } = useContext(SneakerContext);
+  const [form, setForm] = useState<ShippingDetails>({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phoneNumber: "",
+    street: "",
+    streetNumber: "",
+    apartment: "",
+    postalCode: "",
+    city: "",
+  });
+
+  function handleOnChange(key: string, value: string) {
+    setForm((prevFormState) => {
+      return {
+        ...prevFormState,
+        [key]: value,
+      };
+    });
+  }
+
+  function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+    createOrder(form);
+  }
+
   return (
     <form className="flex flex-col gap-3">
       <Input type="text" placeholder="First Name" />
