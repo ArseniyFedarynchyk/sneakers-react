@@ -1,6 +1,7 @@
 import { createContext, useState, useCallback, useEffect } from "react";
 import type { Sneaker } from "../models/sneaker.model";
 import { API_URL } from "../App";
+import type { ShippingDetails } from "../models/shippingDetails.model";
 
 interface Props {
   children: React.ReactNode;
@@ -18,7 +19,7 @@ interface SneakerContext {
   isOrderCreating: boolean;
   orderId: number | null;
   addToFavorites: (item: Sneaker) => void;
-  createOrder: () => void;
+  createOrder: (shippingDetails: ShippingDetails) => void;
   removeFromCart: (item: Sneaker) => void;
   onClickAddPlus: (item: Sneaker) => void;
   handleChangeSelect: (sortBy: string) => void;
@@ -138,7 +139,7 @@ export default function SneakerProvider({ children }: Props) {
     }
   };
 
-  const createOrder = async () => {
+  const createOrder = async (shippingDetails: ShippingDetails) => {
     try {
       setIsOrderCreating(true);
 
@@ -150,6 +151,7 @@ export default function SneakerProvider({ children }: Props) {
         body: JSON.stringify({
           items: cartItems,
           totalPrice: totalPrice,
+          shippingDetails: shippingDetails,
         }),
       });
 
@@ -157,6 +159,7 @@ export default function SneakerProvider({ children }: Props) {
         prevSneakers.map((sneaker) => ({ ...sneaker, isAdded: false }))
       );
       setCartItems([]);
+      updateLocalStorage([]);
 
       const data = await response.json();
 
