@@ -23,7 +23,6 @@ export default function CardList({ items }: CardListProps) {
           imageUrl={item.imageUrl}
           isFavorite={item.isFavorite}
           isAdded={item.isAdded}
-          isFavorites={false}
         />
       ))}
     </div>
