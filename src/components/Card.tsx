@@ -15,7 +15,6 @@ interface CardProps {
   price: number;
   isFavorite?: boolean;
   isAdded?: boolean;
-  isFavorites: boolean;
 }
 
 export default function Card({
@@ -24,7 +23,6 @@ export default function Card({
   price,
   isFavorite,
   isAdded,
-  isFavorites,
   imageUrl,
 }: CardProps) {
   const { addToFavorites, onClickAddPlus } = useContext(SneakerContext);
@@ -40,17 +38,15 @@ export default function Card({
       className="relative flex flex-col justify-between bg-white border border-slate-100 rounded-3xl p-8 cursor-pointer hover:-translate-y-2 hover:shadow-xl transition"
       onClick={redirectToDetailsPage}
     >
-      {!isFavorites && (
-        <img
-          src={isFavorite ? FavoriteAddedIcon : FavoriteIcon}
-          alt="Add to favorite icon"
-          className="absolute top-8 left-8 cursor-pointer"
-          onClick={(e) => {
-            e.stopPropagation();
-            addToFavorites(sneaker);
-          }}
-        />
-      )}
+      <img
+        src={isFavorite ? FavoriteAddedIcon : FavoriteIcon}
+        alt="Add to favorite icon"
+        className="absolute top-8 left-8 cursor-pointer"
+        onClick={(e) => {
+          e.stopPropagation();
+          addToFavorites(sneaker);
+        }}
+      />
       <img src={sneakerImage} alt="sneaker photo" />
       <p className="mb-5">{title}</p>
       <div className="flex justify-between">
@@ -58,19 +54,17 @@ export default function Card({
           <p className="text-slate-400">Price</p>
           <p className="font-semibold">{price}$</p>
         </div>
-        {!isFavorites && (
-          <img
-            src={!isAdded ? PlusIcon : CheckedIcon}
-            alt="Add to a cart"
-            className="cursor-pointer"
-            width="30"
-            height="30"
-            onClick={(e) => {
-              e.stopPropagation();
-              onClickAddPlus(sneaker);
-            }}
-          />
-        )}
+        <img
+          src={!isAdded ? PlusIcon : CheckedIcon}
+          alt="Add to a cart"
+          className="cursor-pointer"
+          width="30"
+          height="30"
+          onClick={(e) => {
+            e.stopPropagation();
+            onClickAddPlus(sneaker);
+          }}
+        />
       </div>
     </div>
   );
