@@ -25,11 +25,13 @@ export default function Card({
   isAdded,
   imageUrl,
 }: CardProps) {
-  const { addToFavorites, onClickAddPlus } = useContext(SneakerContext);
+  const { addToFavorites, onClickAddPlus, handleSelectSneaker } =
+    useContext(SneakerContext);
   const sneakerImage = getImageSource(imageUrl);
   const navigate = useNavigate();
 
   function redirectToDetailsPage() {
+    handleSelectSneaker(sneaker);
     navigate("/sneakers/" + sneaker.id);
   }
 
