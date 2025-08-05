@@ -1,10 +1,17 @@
-import { useLoaderData, type LoaderFunctionArgs } from "react-router";
-import type { Sneaker } from "../models/sneaker.model";
-import { API_URL } from "../App";
+import { useContext, useEffect } from "react";
 import SneakerDetail from "../components/SneakerDetail";
+import { SneakerContext } from "../store/SneakerContext";
+import type { Sneaker } from "../models/sneaker.model";
+import { useLoaderData, type LoaderFunctionArgs } from "react-router";
+import { API_URL } from "../App";
 
 export default function SneakerDetailsPage() {
-  const sneakerSelected: Sneaker = useLoaderData();
+  const { sneakerSelected, handleSelectSneaker } = useContext(SneakerContext);
+  const sneakerData: Sneaker = useLoaderData();
+
+  useEffect(() => {
+    handleSelectSneaker(sneakerData);
+  }, [sneakerData, handleSelectSneaker]);
 
   return <SneakerDetail sneakerSelected={sneakerSelected} />;
 }
