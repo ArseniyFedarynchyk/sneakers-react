@@ -21,6 +21,7 @@ interface SneakerContext {
   handleChangeSelect: (sortBy: string) => void;
   handleChangeSearchQuerry: (searchQuerry: string) => void;
   toggleCart: () => void;
+  handleSelectSneaker: (item: Sneaker) => void;
 }
 
 export const SneakerContext = createContext<SneakerContext>({
@@ -42,4 +43,5 @@ export const SneakerContext = createContext<SneakerContext>({
   handleChangeSelect: () => {},
   handleChangeSearchQuerry: () => {},
   toggleCart: () => {},
+  handleSelectSneaker: () => {},
 });
