@@ -5,6 +5,7 @@ import type { ShippingDetails } from "../models/shippingDetails.model";
 interface SneakerContext {
   sneakers: Sneaker[];
   favorites: Sneaker[];
+  sneakerSelected: Sneaker | null;
   error: string | null;
   isLoading: boolean;
   filters: { sortBy: string; searchQuerry: string };
@@ -25,6 +26,7 @@ interface SneakerContext {
 export const SneakerContext = createContext<SneakerContext>({
   sneakers: [],
   favorites: JSON.parse(localStorage.getItem("favorites")!) || [],
+  sneakerSelected: JSON.parse(localStorage.getItem("sneakerSelected")!) || [],
   error: null,
   isLoading: false,
   filters: { sortBy: "title", searchQuerry: "" },
