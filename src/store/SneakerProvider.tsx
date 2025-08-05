@@ -247,6 +247,21 @@ export default function SneakerProvider({ children }: Props) {
     };
   }, [isCartOpen]);
 
+  useEffect(() => {
+    if (sneakers.length > 0) {
+      const updatedSneaker = sneakers.find(
+        (sneaker) => sneaker.id === sneakerSelected?.id
+      );
+
+      if (updatedSneaker) {
+        setSneakerSelected(updatedSneaker);
+        updateLocalStorage("sneakerSelected", [updatedSneaker]);
+      } else {
+        setSneakerSelected(null);
+      }
+    }
+  }, [sneakers, sneakerSelected]);
+
   const handleChangeSelect = (sortBy: string) => {
     setFilters((prevFilters) => ({ ...prevFilters, sortBy: sortBy }));
   };
