@@ -11,6 +11,7 @@ interface Props {
 export default function SneakerProvider({ children }: Props) {
   const [sneakers, setSneakers] = useState<Sneaker[]>([]);
   const [favorites, setFavorites] = useState<Sneaker[]>([]);
+  const [sneakerSelected, setSneakerSelected] = useState<Sneaker | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [filters, setFilters] = useState({ sortBy: "title", searchQuerry: "" });
@@ -213,12 +214,16 @@ export default function SneakerProvider({ children }: Props) {
   useEffect(() => {
     const storedCartItems = localStorage.getItem("cartItems");
     const storedFavorites = localStorage.getItem("favorites");
+    const storedSneakerSelected = localStorage.getItem("sneakerSelected");
 
     if (storedCartItems) {
       setCartItems(JSON.parse(storedCartItems));
     }
     if (storedFavorites) {
       setFavorites(JSON.parse(storedFavorites));
+    }
+    if (storedSneakerSelected) {
+      setSneakerSelected(JSON.parse(storedSneakerSelected)[0]);
     }
   }, []);
 
@@ -265,6 +270,7 @@ export default function SneakerProvider({ children }: Props) {
   const ctxValue = {
     sneakers,
     favorites,
+    sneakerSelected,
     error,
     isLoading,
     filters,
