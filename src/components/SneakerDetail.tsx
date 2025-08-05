@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { getImageSource } from "../helper";
 import type { Sneaker } from "../models/sneaker.model";
 import { SneakerContext } from "../store/SneakerContext";
@@ -10,8 +10,6 @@ interface SneakerDetailProps {
 export default function SneakerDetail({ sneakerSelected }: SneakerDetailProps) {
   const { addToFavorites, onClickAddPlus } = useContext(SneakerContext);
   const sneakerImage = getImageSource(sneakerSelected.imageUrl);
-  const [isAdded, setIsAdded] = useState(sneakerSelected.isAdded);
-  const [isFavorite, setIsFavorite] = useState(sneakerSelected.isFavorite);
 
   return (
     <div className="flex flex-col sm:flex-row sm:justify-center">
@@ -25,21 +23,17 @@ export default function SneakerDetail({ sneakerSelected }: SneakerDetailProps) {
         <div className="flex justify-between">
           <button
             className="bg-lime-500 text-white font-bold py-2 px-4 rounded hover:bg-lime-600 active:bg-lime-700 cursor-pointer"
-            onClick={() => {
-              onClickAddPlus(sneakerSelected);
-              setIsAdded((prevState) => !prevState);
-            }}
+            onClick={() => onClickAddPlus(sneakerSelected)}
           >
-            {isAdded ? "Remove from Cart" : "Add to Cart"}
+            {sneakerSelected.isAdded ? "Remove from Cart" : "Add to Cart"}
           </button>
           <button
             className="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400 cursor-pointer"
-            onClick={() => {
-              addToFavorites(sneakerSelected);
-              setIsFavorite((prevState) => !prevState);
-            }}
+            onClick={() => addToFavorites(sneakerSelected)}
           >
-            {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+            {sneakerSelected.isFavorite
+              ? "Remove from Favorites"
+              : "Add to Favorites"}
           </button>
         </div>
       </div>
