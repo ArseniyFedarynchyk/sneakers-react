@@ -258,6 +258,10 @@ export default function SneakerProvider({ children }: Props) {
     setOrderId(null);
   };
 
+  const handleSelectSneaker = (item: Sneaker) => {
+    setSneakerSelected(item);
+  };
+
   const ctxValue = {
     sneakers,
     favorites,
@@ -276,6 +280,7 @@ export default function SneakerProvider({ children }: Props) {
     handleChangeSelect,
     handleChangeSearchQuerry,
     toggleCart,
+    handleSelectSneaker,
   };
 
   return (
