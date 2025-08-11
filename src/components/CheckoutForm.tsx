@@ -34,10 +34,12 @@ export default function CheckoutForm() {
     form.postalCode.didEdit && form.postalCode.value === "";
   const isCityInvalid = form.city.didEdit && form.city.value === "";
   const isEmailInvalid = form.email.didEdit && !form.email.value.includes("@");
+
+  function handleOnChange(key: keyof ShippingDetails, value: string) {
     setForm((prevFormState) => {
       return {
         ...prevFormState,
-        [key]: value,
+        [key]: { ...prevFormState[key], value },
       };
     });
   }
