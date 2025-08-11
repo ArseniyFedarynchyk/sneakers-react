@@ -101,6 +101,7 @@ export default function CheckoutForm() {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 handleOnChange("firstName", e.target.value)
               }
+              onBlur={() => handleOnBlur("firstName")}
             />
             <Input
               type="text"
@@ -110,6 +111,7 @@ export default function CheckoutForm() {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 handleOnChange("lastName", e.target.value)
               }
+              onBlur={() => handleOnBlur("lastName")}
             />
             <Input
               type="email"
@@ -119,6 +121,7 @@ export default function CheckoutForm() {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 handleOnChange("email", e.target.value)
               }
+              onBlur={() => handleOnBlur("email")}
             />
             <div className="flex flex-col md:flex-row gap-3">
               <Input
@@ -129,6 +132,7 @@ export default function CheckoutForm() {
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   handleOnChange("street", e.target.value)
                 }
+                onBlur={() => handleOnBlur("street")}
               />
               <div className="flex sm:flex-row flex-col gap-3">
                 <Input
@@ -139,6 +143,7 @@ export default function CheckoutForm() {
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     handleOnChange("streetNumber", e.target.value)
                   }
+                  onBlur={() => handleOnBlur("streetNumber")}
                 />
                 <Input
                   type="number"
@@ -148,6 +153,7 @@ export default function CheckoutForm() {
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     handleOnChange("apartment", e.target.value)
                   }
+                  onBlur={() => handleOnBlur("apartment")}
                 />
               </div>
             </div>
@@ -161,6 +167,7 @@ export default function CheckoutForm() {
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   handleOnChange("postalCode", e.target.value)
                 }
+                onBlur={() => handleOnBlur("postalCode")}
               />
               <Input
                 type="text"
@@ -170,6 +177,7 @@ export default function CheckoutForm() {
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   handleOnChange("city", e.target.value)
                 }
+                onBlur={() => handleOnBlur("city")}
               />
             </div>
             <Input
@@ -180,6 +188,7 @@ export default function CheckoutForm() {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 handleOnChange("phoneNumber", e.target.value)
               }
+              onBlur={() => handleOnBlur("phoneNumber")}
             />
             {error && (
               <p className="text-red-500">
