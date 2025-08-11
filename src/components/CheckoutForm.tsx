@@ -104,6 +104,7 @@ export default function CheckoutForm() {
                 handleOnChange("firstName", e.target.value)
               }
               onBlur={() => handleOnBlur("firstName")}
+              required
             />
             <Input
               type="text"
@@ -114,6 +115,7 @@ export default function CheckoutForm() {
                 handleOnChange("lastName", e.target.value)
               }
               onBlur={() => handleOnBlur("lastName")}
+              required
             />
             <Input
               type="email"
@@ -124,6 +126,7 @@ export default function CheckoutForm() {
                 handleOnChange("email", e.target.value)
               }
               onBlur={() => handleOnBlur("email")}
+              required
             />
             <div className="flex flex-col md:flex-row gap-3">
               <Input
@@ -135,6 +138,7 @@ export default function CheckoutForm() {
                   handleOnChange("street", e.target.value)
                 }
                 onBlur={() => handleOnBlur("street")}
+                required
               />
               <div className="flex sm:flex-row flex-col gap-3">
                 <Input
@@ -146,6 +150,7 @@ export default function CheckoutForm() {
                     handleOnChange("streetNumber", e.target.value)
                   }
                   onBlur={() => handleOnBlur("streetNumber")}
+                  required
                 />
                 <Input
                   type="number"
@@ -156,6 +161,7 @@ export default function CheckoutForm() {
                     handleOnChange("apartment", e.target.value)
                   }
                   onBlur={() => handleOnBlur("apartment")}
+                  required
                 />
               </div>
             </div>
@@ -170,6 +176,7 @@ export default function CheckoutForm() {
                   handleOnChange("postalCode", e.target.value)
                 }
                 onBlur={() => handleOnBlur("postalCode")}
+                required
               />
               <Input
                 type="text"
@@ -180,6 +187,7 @@ export default function CheckoutForm() {
                   handleOnChange("city", e.target.value)
                 }
                 onBlur={() => handleOnBlur("city")}
+                required
               />
             </div>
             <Input
@@ -191,6 +199,7 @@ export default function CheckoutForm() {
                 handleOnChange("phoneNumber", e.target.value)
               }
               onBlur={() => handleOnBlur("phoneNumber")}
+              required
             />
             {error && (
               <p className="text-red-500">
