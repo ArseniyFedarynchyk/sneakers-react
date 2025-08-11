@@ -44,7 +44,39 @@ export default function CheckoutForm() {
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    createOrder(form);
+    const isFormValid =
+      !isFirstNameInvalid &&
+      !isLastNameInvalid &&
+      !isEmailInvalid &&
+      !isPhoneNumberInvalid &&
+      !isStreetInvalid &&
+      !isStreetNumberInvalid &&
+      !isApartmentInvalid &&
+      !isPostalCodeInvalid &&
+      !isCityInvalid;
+    if (!isFormValid) {
+      setError("Please fill out all required fields correctly.");
+      return;
+    }
+    const orderDetails: ShippingDetails = {
+      firstName: form.firstName.value,
+      lastName: form.lastName.value,
+      email: form.email.value,
+      phoneNumber: form.phoneNumber.value,
+      street: form.street.value,
+      streetNumber: form.streetNumber.value,
+      apartment: form.apartment.value,
+      postalCode: form.postalCode.value,
+      city: form.city.value,
+    };
+    createOrder(orderDetails);
+  }
+
+  function handleOnBlur(key: keyof ShippingDetails) {
+    setForm((prevFormState) => ({
+      ...prevFormState,
+      [key]: { ...prevFormState[key], didEdit: true },
+    }));
   }
 
   return (
