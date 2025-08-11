@@ -18,6 +18,7 @@ export default function CheckoutForm() {
     postalCode: { value: "", didEdit: false },
     city: { value: "", didEdit: false },
   });
+  const [error, setError] = useState<string | null>(null);
     setForm((prevFormState) => {
       return {
         ...prevFormState,
