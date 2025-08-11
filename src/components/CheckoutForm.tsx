@@ -19,6 +19,21 @@ export default function CheckoutForm() {
     city: { value: "", didEdit: false },
   });
   const [error, setError] = useState<string | null>(null);
+
+  const isFirstNameInvalid =
+    form.firstName.didEdit && form.firstName.value === "";
+  const isLastNameInvalid = form.lastName.didEdit && form.lastName.value === "";
+  const isPhoneNumberInvalid =
+    form.phoneNumber.didEdit && form.phoneNumber.value === "";
+  const isStreetInvalid = form.street.didEdit && form.street.value === "";
+  const isStreetNumberInvalid =
+    form.streetNumber.didEdit && form.streetNumber.value === "";
+  const isApartmentInvalid =
+    form.apartment.didEdit && form.apartment.value === "";
+  const isPostalCodeInvalid =
+    form.postalCode.didEdit && form.postalCode.value === "";
+  const isCityInvalid = form.city.didEdit && form.city.value === "";
+  const isEmailInvalid = form.email.didEdit && !form.email.value.includes("@");
     setForm((prevFormState) => {
       return {
         ...prevFormState,
@@ -50,6 +65,7 @@ export default function CheckoutForm() {
               type="text"
               placeholder="First Name"
               value={form.firstName.value}
+              isValid={isFirstNameInvalid}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 handleOnChange("firstName", e.target.value)
               }
@@ -58,6 +74,7 @@ export default function CheckoutForm() {
               type="text"
               placeholder="Last Name"
               value={form.lastName.value}
+              isValid={isLastNameInvalid}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 handleOnChange("lastName", e.target.value)
               }
@@ -66,6 +83,7 @@ export default function CheckoutForm() {
               type="email"
               placeholder="Email"
               value={form.email.value}
+              isValid={isEmailInvalid}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 handleOnChange("email", e.target.value)
               }
@@ -75,6 +93,7 @@ export default function CheckoutForm() {
                 type="text"
                 placeholder="Street"
                 value={form.street.value}
+                isValid={isStreetInvalid}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   handleOnChange("street", e.target.value)
                 }
@@ -84,6 +103,7 @@ export default function CheckoutForm() {
                   type="number"
                   placeholder="No."
                   value={form.streetNumber.value}
+                  isValid={isStreetNumberInvalid}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     handleOnChange("streetNumber", e.target.value)
                   }
@@ -92,6 +112,7 @@ export default function CheckoutForm() {
                   type="number"
                   placeholder="Apt No."
                   value={form.apartment.value}
+                  isValid={isApartmentInvalid}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     handleOnChange("apartment", e.target.value)
                   }
@@ -104,6 +125,7 @@ export default function CheckoutForm() {
                 type="text"
                 placeholder="Postal Code"
                 value={form.postalCode.value}
+                isValid={isPostalCodeInvalid}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   handleOnChange("postalCode", e.target.value)
                 }
@@ -112,6 +134,7 @@ export default function CheckoutForm() {
                 type="text"
                 placeholder="City"
                 value={form.city.value}
+                isValid={isCityInvalid}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   handleOnChange("city", e.target.value)
                 }
@@ -121,6 +144,7 @@ export default function CheckoutForm() {
               type="tel"
               placeholder="Phone number"
               value={form.phoneNumber.value}
+              isValid={isPhoneNumberInvalid}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 handleOnChange("phoneNumber", e.target.value)
               }
