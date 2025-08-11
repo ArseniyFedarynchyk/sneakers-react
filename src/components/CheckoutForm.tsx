@@ -7,19 +7,17 @@ import type { ShippingDetails } from "../models/shippingDetails.model";
 
 export default function CheckoutForm() {
   const { totalPrice, createOrder } = useContext(SneakerContext);
-  const [form, setForm] = useState<ShippingDetails>({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phoneNumber: "",
-    street: "",
-    streetNumber: "",
-    apartment: "",
-    postalCode: "",
-    city: "",
+  const [form, setForm] = useState({
+    firstName: { value: "", didEdit: false },
+    lastName: { value: "", didEdit: false },
+    email: { value: "", didEdit: false },
+    phoneNumber: { value: "", didEdit: false },
+    street: { value: "", didEdit: false },
+    streetNumber: { value: "", didEdit: false },
+    apartment: { value: "", didEdit: false },
+    postalCode: { value: "", didEdit: false },
+    city: { value: "", didEdit: false },
   });
-
-  function handleOnChange(key: string, value: string) {
     setForm((prevFormState) => {
       return {
         ...prevFormState,
@@ -50,7 +48,7 @@ export default function CheckoutForm() {
             <Input
               type="text"
               placeholder="First Name"
-              value={form.firstName}
+              value={form.firstName.value}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 handleOnChange("firstName", e.target.value)
               }
@@ -58,7 +56,7 @@ export default function CheckoutForm() {
             <Input
               type="text"
               placeholder="Last Name"
-              value={form.lastName}
+              value={form.lastName.value}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 handleOnChange("lastName", e.target.value)
               }
@@ -66,7 +64,7 @@ export default function CheckoutForm() {
             <Input
               type="email"
               placeholder="Email"
-              value={form.email}
+              value={form.email.value}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 handleOnChange("email", e.target.value)
               }
@@ -75,7 +73,7 @@ export default function CheckoutForm() {
               <Input
                 type="text"
                 placeholder="Street"
-                value={form.street}
+                value={form.street.value}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   handleOnChange("street", e.target.value)
                 }
@@ -84,7 +82,7 @@ export default function CheckoutForm() {
                 <Input
                   type="number"
                   placeholder="No."
-                  value={form.streetNumber}
+                  value={form.streetNumber.value}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     handleOnChange("streetNumber", e.target.value)
                   }
@@ -92,7 +90,7 @@ export default function CheckoutForm() {
                 <Input
                   type="number"
                   placeholder="Apt No."
-                  value={form.apartment}
+                  value={form.apartment.value}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     handleOnChange("apartment", e.target.value)
                   }
@@ -104,7 +102,7 @@ export default function CheckoutForm() {
                 className="md:basis-1/3 border border-gray-200 rounded-md py-2 px-4 outline-none focus:border-gray-400 w-full"
                 type="text"
                 placeholder="Postal Code"
-                value={form.postalCode}
+                value={form.postalCode.value}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   handleOnChange("postalCode", e.target.value)
                 }
@@ -112,7 +110,7 @@ export default function CheckoutForm() {
               <Input
                 type="text"
                 placeholder="City"
-                value={form.city}
+                value={form.city.value}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   handleOnChange("city", e.target.value)
                 }
@@ -121,7 +119,7 @@ export default function CheckoutForm() {
             <Input
               type="tel"
               placeholder="Phone number"
-              value={form.phoneNumber}
+              value={form.phoneNumber.value}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 handleOnChange("phoneNumber", e.target.value)
               }
