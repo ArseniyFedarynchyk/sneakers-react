@@ -181,6 +181,11 @@ export default function CheckoutForm() {
                 handleOnChange("phoneNumber", e.target.value)
               }
             />
+            {error && (
+              <p className="text-red-500">
+                Please fill out all required fields correctly
+              </p>
+            )}
             <div className="flex justify-between">
               <button
                 type="button"
