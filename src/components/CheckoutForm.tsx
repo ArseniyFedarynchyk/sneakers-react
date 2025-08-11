@@ -1,11 +1,13 @@
-import { useContext, useState, type FormEvent } from "react";
+import { useContext, useState } from "react";
 import CartItemList from "./CartItemList";
 import Input from "./Input";
 import { SneakerContext } from "../store/SneakerContext";
 import InfoBlock from "./InfoBlock";
 import type { ShippingDetails } from "../models/shippingDetails.model";
+import { useNavigate } from "react-router";
 
 export default function CheckoutForm() {
+  const navigate = useNavigate();
   const { totalPrice, createOrder } = useContext(SneakerContext);
   const [form, setForm] = useState({
     firstName: { value: "", didEdit: false },
@@ -44,7 +46,7 @@ export default function CheckoutForm() {
     });
   }
 
-  function handleSubmit(e: FormEvent) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const isFormValid =
       !isFirstNameInvalid &&
@@ -210,6 +212,7 @@ export default function CheckoutForm() {
               <button
                 type="button"
                 className="transition bg-slate-400 rounded-xl cursor-pointer p-3 text-white hover:bg-slate-500"
+                onClick={() => navigate("/")}
               >
                 Cancel
               </button>
