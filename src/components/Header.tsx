@@ -1,6 +1,5 @@
 import Logo from "../assets/logo.png";
 import CartIcon from "../assets/cart.svg";
-import ProfileIcon from "../assets/profile.svg";
 import FavoritesIcon from "../assets/heart.svg";
 import { useContext } from "react";
 import { SneakerContext } from "../store/SneakerContext";
@@ -36,10 +35,6 @@ export default function Header() {
             <span className="hidden md:block">Favorites</span>
           </li>
         </Link>
-        <li className="flex items-center gap-3 cursor-pointer text-gray-500 hover:text-black">
-          <img src={ProfileIcon} alt="Profile" />
-          <span className="hidden md:block">Profile</span>
-        </li>
       </ul>
     </header>
   );
