@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { getImageSource } from "../helper";
 import type { Sneaker } from "../models/sneaker.model";
 import { SneakerContext } from "../store/SneakerContext";
+import Button from "./Button";
 
 interface SneakerDetailProps {
   sneakerSelected: Sneaker;
@@ -21,20 +22,17 @@ export default function SneakerDetail({ sneakerSelected }: SneakerDetailProps) {
         </p>
         <div className="text-lg font-semibold mb-4">{`Price: ${sneakerSelected.price}$`}</div>
         <div className="flex justify-between gap-2">
-          <button
-            className="bg-lime-500 text-white font-bold py-2 px-4 rounded-xl hover:bg-lime-600 active:bg-lime-700 cursor-pointer"
+          <Button
             onClick={() => onClickAddPlus(sneakerSelected)}
+            isPrimary={true}
           >
             {sneakerSelected.isAdded ? "Remove from Cart" : "Add to Cart"}
-          </button>
-          <button
-            className="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-xl hover:bg-gray-400 cursor-pointer"
-            onClick={() => addToFavorites(sneakerSelected)}
-          >
+          </Button>
+          <Button onClick={() => addToFavorites(sneakerSelected)}>
             {sneakerSelected.isFavorite
               ? "Remove from Favorites"
               : "Add to Favorites"}
-          </button>
+          </Button>
         </div>
       </div>
     </div>

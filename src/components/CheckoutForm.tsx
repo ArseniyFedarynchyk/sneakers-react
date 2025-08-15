@@ -5,6 +5,7 @@ import { SneakerContext } from "../store/SneakerContext";
 import InfoBlock from "./InfoBlock";
 import type { ShippingDetails } from "../models/shippingDetails.model";
 import { useNavigate } from "react-router";
+import Button from "./Button";
 
 export default function CheckoutForm() {
   const navigate = useNavigate();
@@ -209,19 +210,12 @@ export default function CheckoutForm() {
               </p>
             )}
             <div className="flex justify-between">
-              <button
-                type="button"
-                className="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-xl hover:bg-gray-400 cursor-pointer"
-                onClick={() => navigate("/")}
-              >
+              <Button type="button" onClick={() => navigate("/")}>
                 Cancel
-              </button>
-              <button
-                type="submit"
-                className="bg-lime-500 text-white font-bold py-2 px-4 rounded-xl hover:bg-lime-600 active:bg-lime-700 cursor-pointer"
-              >
+              </Button>
+              <Button type="submit" isPrimary>
                 Checkout
-              </button>
+              </Button>
             </div>
           </form>
         </div>
