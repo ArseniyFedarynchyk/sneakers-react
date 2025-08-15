@@ -64,7 +64,9 @@ export default function SneakerProvider({ children }: Props) {
       setSneakers(updatedSneakers);
     } catch (error: unknown) {
       if (error instanceof Error) {
-        setError(error.message);
+        setError(
+          "An error occurred while fetching data. Check your internet connection or try again later."
+        );
         console.error("Error fetching data:", error);
       } else {
         setError("An unknown error occurred");
@@ -127,6 +129,9 @@ export default function SneakerProvider({ children }: Props) {
 
       setOrderId(data.id);
     } catch (error) {
+      setError(
+        "An error occured while creating an order. Check your internet connection or try again later."
+      );
       console.error(error);
     } finally {
       setIsOrderCreating(false);
