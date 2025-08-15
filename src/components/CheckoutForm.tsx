@@ -211,14 +211,14 @@ export default function CheckoutForm() {
             <div className="flex justify-between">
               <button
                 type="button"
-                className="transition bg-slate-400 rounded-xl cursor-pointer p-3 text-white hover:bg-slate-500"
+                className="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-xl hover:bg-gray-400 cursor-pointer"
                 onClick={() => navigate("/")}
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="transition bg-lime-500 rounded-xl cursor-pointer p-3 text-white hover:bg-lime-600"
+                className="bg-lime-500 text-white font-bold py-2 px-4 rounded-xl hover:bg-lime-600 active:bg-lime-700 cursor-pointer"
               >
                 Checkout
               </button>

@@ -20,15 +20,15 @@ export default function SneakerDetail({ sneakerSelected }: SneakerDetailProps) {
           {sneakerSelected.description}
         </p>
         <div className="text-lg font-semibold mb-4">{`Price: ${sneakerSelected.price}$`}</div>
-        <div className="flex justify-between">
+        <div className="flex justify-between gap-2">
           <button
-            className="bg-lime-500 text-white font-bold py-2 px-4 rounded hover:bg-lime-600 active:bg-lime-700 cursor-pointer"
+            className="bg-lime-500 text-white font-bold py-2 px-4 rounded-xl hover:bg-lime-600 active:bg-lime-700 cursor-pointer"
             onClick={() => onClickAddPlus(sneakerSelected)}
           >
             {sneakerSelected.isAdded ? "Remove from Cart" : "Add to Cart"}
           </button>
           <button
-            className="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400 cursor-pointer"
+            className="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-xl hover:bg-gray-400 cursor-pointer"
             onClick={() => addToFavorites(sneakerSelected)}
           >
             {sneakerSelected.isFavorite
