@@ -1,13 +1,12 @@
 import { createBrowserRouter, RouterProvider } from "react-router";
 import HomePage from "./pages/HomePage";
 import RootLayout from "./layouts/RootLayout";
-import SneakerDetailsPage, {
-  loader as sneakerDetailsLoader,
-} from "./pages/SneakerDetailsPage";
+import SneakerDetailsPage from "./pages/SneakerDetailsPage";
 import FavoritesPage from "./pages/FavoritesPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import SneakerProvider from "./store/SneakerProvider";
 import ErrorPage from "./pages/ErrorPage";
+import { sneakerDetailsLoader } from "./loaders";
 
 export const API_URL = "https://f67e77c455aa171b.mokky.dev";
 
