@@ -14,7 +14,7 @@ export default function Header() {
         <div className="flex items-center gap-4">
           <img src={Logo} alt="Logo" className="w-11" />
           <div>
-            <h2 className="font-bold md:text-xl uppercase">React sneakers</h2>
+            <h2 className="font-bold md:text-xl uppercase">Sneakers</h2>
             <p className="hidden sm:block text-slate-400">
               The best sneakers shop ever!
             </p>
