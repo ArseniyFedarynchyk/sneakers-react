@@ -26,9 +26,11 @@ const sneakerImages = {
   "sneakers-12": sneaker12,
 };
 
+type SneakerKey = keyof typeof sneakerImages;
+
 export const getImageSource = (url?: string) => {
   if (!url) return null;
-  const sneakerKey = url.split("/").pop();
+  const sneakerKey = url.split("/").pop() as SneakerKey;
 
   if (sneakerKey && sneakerKey in sneakerImages) {
     return sneakerImages[sneakerKey];
