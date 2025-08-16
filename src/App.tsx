@@ -7,6 +7,7 @@ import SneakerDetailsPage, {
 import FavoritesPage from "./pages/FavoritesPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import SneakerProvider from "./store/SneakerProvider";
+import ErrorPage from "./pages/ErrorPage";
 
 export const API_URL = "https://f67e77c455aa171b.mokky.dev";
 
@@ -14,12 +15,14 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
+    errorElement: <ErrorPage />,
     children: [
       { index: true, element: <HomePage /> },
       { path: "favorites", element: <FavoritesPage /> },
       { path: "checkout", element: <CheckoutPage /> },
       {
         path: "sneakers/:sneakerId",
+        errorElement: <ErrorPage />,
         element: <SneakerDetailsPage />,
         loader: sneakerDetailsLoader,
       },
