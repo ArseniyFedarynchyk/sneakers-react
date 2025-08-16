@@ -11,7 +11,7 @@ import { getImageSource } from "../helper";
 interface CardProps {
   sneaker: Sneaker;
   title: string;
-  imageUrl?: string;
+  imageUrl: string;
   price: number;
   isFavorite?: boolean;
   isAdded?: boolean;
